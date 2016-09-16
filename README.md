@@ -28,4 +28,22 @@ In the end, I loved learning about React Native and the different paradigms. I'l
 
 ## Screenshots
 
-TODO
+![Add Expense](screenshots/add-expense.png)
+
+![Add Expense with Keyboard](screenshots/add-expense-keyboard.png)
+
+![Added Expense Successfully](screenshots/add-expense-success.png)
+
+![View Expenses](screenshots/view-expenses.png)
+
+![View Expenses - Date Filter](screenshots/view-expenses-date-filter.png)
+
+![View Expenses - Search Filter](screenshots/view-expenses-search.png)
+
+![View Expenses - Filter](screenshots/view-expenses-filter.png)
+
+![Edit Expense](screenshots/view-expenses-edit.png)
+
+![View Expense Types](screenshots/view-expense-types.png)
+
+![Settings](screenshots/settings.png)
