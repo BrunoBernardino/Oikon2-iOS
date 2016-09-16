@@ -28,6 +28,8 @@ In the end, I loved learning about React Native and the different paradigms. I'l
 
 ## Screenshots
 
+![Showcase](screenshots/showcase.png)
+
 ![Add Expense](screenshots/add-expense.png)
 
 ![Add Expense with Keyboard](screenshots/add-expense-keyboard.png)
