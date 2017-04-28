@@ -1,4 +1,5 @@
 # Next:
+- [ ] Upgrade dependencies
 - [ ] Fix issue of adjacent keyboard view not showing when there's a modal in the back
 - [ ] Finish Implementing functionality for editing an expense
 - [ ] Add UI & Functionality for deleting an expense
@@ -11,6 +12,8 @@
 # Tests:
 - [ ] Test adding duplicate expense types
 - [ ] Test adding expenses with unicode
+- [ ] Test name trimming expenses and expense types
+- [ ] Test negative values for expenses
 - [ ] Test CSV import/export with unicode (ç, ª, à, etc.)
 - [ ] Test big CSV import/exports (100k rows)
 
@@ -22,10 +25,6 @@
 - [ ] Consider enabling an option for using CouchBase
   - http://blog.yld.io/2016/07/05/building-a-offline-first-application-using-react-native-and-pouchdb/#.V7Nt5P4rKAw
   - https://github.com/couchbaselabs/react-native-couchbase-lite && http://www.couchbase.com/nosql-databases/couchbase-mobile
-- [ ] Consider adding iCloud sync for data
-  - https://github.com/chirag04/react-native-icloud-sync appears to be only key/value based
-- [ ] Add PIN UI & Functionality for Settings?
-- [ ] Implement PIN check & prevention?
 
 # In the future:
 - [ ] macOS version, using http://electron.atom.io and/or http://nwjs.io and/or https://github.com/gabrielbull/react-desktop
