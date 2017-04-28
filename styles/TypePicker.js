@@ -3,23 +3,23 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
     backgroundColor: 'transparent',
-    flexDirection: 'row'
   },
   pane: {
     flex: 0.5,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderTopColor: 'rgba(255, 255, 255, 0.8)',
     borderTopWidth: 1,
-    marginTop: 20
+  },
+  emptySpace: {
+    flex: 1,
   },
   headerGroup: {
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'transparent',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flex: 0.18,
   },
   nextText: {
     flex: 0.3,
@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   picker: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    flex: 0.82,
   },
 });
 

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: 'HelveticaNeue',
-    lineHeight: 50,
+    lineHeight: 80,
     fontWeight: '300',
     fontSize: 20,
     color: 'white',

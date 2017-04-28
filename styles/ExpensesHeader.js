@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'left',
     marginLeft: 10,
-    marginTop: 5
+    marginTop: 28
   },
   totalGroup: {
     flex: 0.4,

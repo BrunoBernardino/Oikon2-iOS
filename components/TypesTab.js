@@ -49,6 +49,7 @@ class TypesTab extends Component {
           renderRow={this.renderTypeRow}
           style={styles.listContainer}
           automaticallyAdjustContentInsets={false}
+          enableEmptySections={true}
         />
       </View>
     );
