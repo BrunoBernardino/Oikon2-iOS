@@ -198,104 +198,105 @@ class EditExpenseModal extends Component {
 
     return (
       <Modal
-        animationType={"slide"}
+        animationType="slide"
         transparent={true}
         visible={visible}
         onRequestClose={onClose}
         >
-       <BlurView blurType="light" style={styles.container}>
-        <View style={styles.pane}>
-          <View style={styles.headerGroup}>
-            <TouchableHighlight
-              onPress={this.onDeletePress.bind(this)}
-              underlayColor="rgba(255, 255, 255, 0.5)"
-            >
-              <Text style={styles.deleteText}>Delete</Text>
-            </TouchableHighlight>
-            <Text style={styles.titleText}>Edit</Text>
-            <TouchableHighlight
-              onPress={onClose}
-              underlayColor="rgba(255, 255, 255, 0.5)"
-            >
-              <Text style={styles.closeText}>Close</Text>
-            </TouchableHighlight>
-          </View>
-
-          <View style={styles.expenseContainer}>
-            <ModalInput
-              isOdd={false}
-              ref="costInput"
-              onChangeText={this.onChangeInput.bind(this, 'cost')}
-              label="Cost"
-              value={this.state.cost}
-              returnKeyType="next"
-              keyboardType="numeric"
-              onSubmitEditing={this.onNextPress.bind(this, 'cost')}
-              onFocus={this.setFocusedField.bind(this, 'cost')}
-            />
-            <ModalInput
-              isOdd={true}
-              ref="nameInput"
-              onChangeText={this.onChangeInput.bind(this, 'name')}
-              label="Name"
-              value={this.state.name}
-              returnKeyType="next"
-              ref="nameInput"
-              onSubmitEditing={this.onNextPress.bind(this, 'name')}
-              onFocus={this.setFocusedField.bind(this, 'name')}
-            />
-            <ModalCustomInput
-              isOdd={false}
-              onShowInput={this.showCustomInput.bind(this, 'type')}
-              label="Type"
-              value={this.state.type}
-            />
-            <ModalCustomInput
-              isOdd={true}
-              onShowInput={this.showCustomInput.bind(this, 'date')}
-              label="Date"
-              value={showDate}
-            />
-
-            <View style={styles.saveButtonContainer}>
+        <BlurView blurType="light" style={styles.container}>
+          <View style={styles.emptySpace}></View>
+          <View style={styles.pane}>
+            <View style={styles.headerGroup}>
               <TouchableHighlight
-                style={styles.saveButton}
-                onPress={this.onSavePress.bind(this)}
-                underlayColor="rgba(255, 255, 255, 0.3)"
+                onPress={this.onDeletePress.bind(this)}
+                underlayColor="rgba(255, 255, 255, 0.5)"
               >
-                <Text style={styles.saveButtonText}>Save</Text>
+                <Text style={styles.deleteText}>Delete</Text>
+              </TouchableHighlight>
+              <Text style={styles.titleText}>Edit</Text>
+              <TouchableHighlight
+                onPress={onClose}
+                underlayColor="rgba(255, 255, 255, 0.5)"
+              >
+                <Text style={styles.closeText}>Close</Text>
               </TouchableHighlight>
             </View>
-          </View>
-        </View>
 
-        <CommonTopKeyboardView
-          visible={this.state.showingKeyboard}
-          visibleY={this.state.keyboardY}
-          keyboardWidth={this.state.keyboardWidth}
-          onClose={this.hideAllInputs.bind(this)}
-          onSavePress={this.onSavePress.bind(this)}
-          onNextPress={this.onNextPress.bind(this, this.state.focusedInput)}
-        />
-        <TypePicker
-          visible={this.state.showingTypePicker}
-          onRequestClose={this.onCustomInputCancel.bind(this, 'type')}
-          onSavePress={this.onSavePress.bind(this)}
-          onNextPress={this.onNextPress.bind(this, 'type')}
-          onTypeChange={this.onChangeInput.bind(this, 'type')}
-          type={this.state.type}
-          types={types}
-        />
-        <ModalDatePicker
-          visible={this.state.showingDatePicker}
-          onRequestClose={this.onCustomInputCancel.bind(this, 'date')}
-          timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-          onDateChange={this.onChangeDate.bind(this)}
-          onSavePress={this.onSavePress.bind(this)}
-          onNextPress={this.onNextPress.bind(this, 'date')}
-          date={dateObject}
-        />
-       </BlurView>
+            <View style={styles.expenseContainer}>
+              <ModalInput
+                isOdd={false}
+                ref="costInput"
+                onChangeText={this.onChangeInput.bind(this, 'cost')}
+                label="Cost"
+                value={this.state.cost}
+                returnKeyType="next"
+                keyboardType="numeric"
+                onSubmitEditing={this.onNextPress.bind(this, 'cost')}
+                onFocus={this.setFocusedField.bind(this, 'cost')}
+              />
+              <ModalInput
+                isOdd={true}
+                ref="nameInput"
+                onChangeText={this.onChangeInput.bind(this, 'name')}
+                label="Name"
+                value={this.state.name}
+                returnKeyType="next"
+                ref="nameInput"
+                onSubmitEditing={this.onNextPress.bind(this, 'name')}
+                onFocus={this.setFocusedField.bind(this, 'name')}
+              />
+              <ModalCustomInput
+                isOdd={false}
+                onShowInput={this.showCustomInput.bind(this, 'type')}
+                label="Type"
+                value={this.state.type}
+              />
+              <ModalCustomInput
+                isOdd={true}
+                onShowInput={this.showCustomInput.bind(this, 'date')}
+                label="Date"
+                value={showDate}
+              />
+
+              <View style={styles.saveButtonContainer}>
+                <TouchableHighlight
+                  style={styles.saveButton}
+                  onPress={this.onSavePress.bind(this)}
+                  underlayColor="rgba(255, 255, 255, 0.3)"
+                >
+                  <Text style={styles.saveButtonText}>Save</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+
+          <CommonTopKeyboardView
+            visible={this.state.showingKeyboard}
+            visibleY={this.state.keyboardY}
+            keyboardWidth={this.state.keyboardWidth}
+            onClose={this.hideAllInputs.bind(this)}
+            onSavePress={this.onSavePress.bind(this)}
+            onNextPress={this.onNextPress.bind(this, this.state.focusedInput)}
+          />
+          <TypePicker
+            visible={this.state.showingTypePicker}
+            onRequestClose={this.onCustomInputCancel.bind(this, 'type')}
+            onSavePress={this.onSavePress.bind(this)}
+            onNextPress={this.onNextPress.bind(this, 'type')}
+            onTypeChange={this.onChangeInput.bind(this, 'type')}
+            type={this.state.type}
+            types={types}
+          />
+          <ModalDatePicker
+            visible={this.state.showingDatePicker}
+            onRequestClose={this.onCustomInputCancel.bind(this, 'date')}
+            timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+            onDateChange={this.onChangeDate.bind(this)}
+            onSavePress={this.onSavePress.bind(this)}
+            onNextPress={this.onNextPress.bind(this, 'date')}
+            date={dateObject}
+          />
+        </BlurView>
       </Modal>
     );
   }

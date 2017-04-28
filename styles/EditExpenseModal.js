@@ -3,17 +3,16 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
     backgroundColor: 'transparent',
-    flexDirection: 'row'
   },
   pane: {
     flex: 0.5,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderTopColor: 'rgba(255, 255, 255, 0.8)',
     borderTopWidth: 1,
-    marginTop: 20
+  },
+  emptySpace: {
+    flex: 0.5,
   },
   headerGroup: {
     justifyContent: 'flex-start',
@@ -51,7 +50,8 @@ const styles = StyleSheet.create({
   expenseContainer: {
     backgroundColor: 'white',
     paddingBottom: 20,
-    paddingTop: 10
+    paddingTop: 10,
+    flex: 0.7,
   },
   saveButtonContainer: {
     marginTop: 20,
