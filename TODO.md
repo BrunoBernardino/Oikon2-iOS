@@ -1,5 +1,6 @@
 # Next:
-- [ ] Upgrade dependencies
+- [x] Upgrade dependencies
+- [ ] Fix upgrade issues (bad UI placements and non-reactive UI in some buttons)
 - [ ] Fix issue of adjacent keyboard view not showing when there's a modal in the back
 - [ ] Finish Implementing functionality for editing an expense
 - [ ] Add UI & Functionality for deleting an expense
