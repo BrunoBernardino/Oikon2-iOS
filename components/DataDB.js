@@ -54,17 +54,43 @@ const DataDB = {
 
     // TODO: If adding an expense, update the expense type cost + count
 
-    this.chooseDB(type)
+    return this.chooseDB(type)
       .post(data)
       .catch(genericErrorHandler);
   },
 
-  // TODO: Update
-  // TODO: If updating an expense, update the expense type cost + count
+  // Update a row
+  update(type, data) {
+    this.validate(type, data);
 
-  // TODO: Delete
-  // TODO: If deleting an expense, update the expense type cost + count
-  // TODO: If deleting an expense type, update the expenses
+    // TODO: If updating an expense, update the expense type cost + count
+
+    return this.chooseDB(type)
+      .put(data)
+      .catch(genericErrorHandler);
+  },
+
+  // Delete a row
+  delete(type, data) {
+    // TODO: If deleting an expense, update the expense type cost + count
+    // TODO: If deleting an expense type, update the expenses
+
+    return this.chooseDB(type)
+      .remove(data)
+      .catch(genericErrorHandler);
+  },
+
+  // Delete the dbs
+  async deleteDB() {
+    try {
+      await this.expensesDB.destroy();
+      await this.typesDB.destroy();
+    } catch (e) {
+      return genericErrorHandler(e);
+    }
+
+    return false;
+  },
 
   // Send a callback to act on when something changes
   subscribe(type, callback) {
@@ -81,6 +107,9 @@ const DataDB = {
   potentiallyParse(type, data) {
     // Expenses
     if (type === 'expense') {
+      // Trim name
+      data.name = data.name.trim();
+
       // Convert cost to number
       if (typeof data.cost !== 'number') {
         // Parse comma into dot
@@ -102,12 +131,17 @@ const DataDB = {
       // Convert 'uncategorized' or '(auto)' to empty string
       if (data.type === 'uncategorized' || data.type === '(auto)') {
         data.type = '';
+
+        // TODO: Add automatic type
       }
 
     }
 
     // Expense Types
     if (type === 'type') {
+      // Trim name
+      data.name = data.name.trim();
+
       // Convert cost to number
       if (typeof data.cost !== 'number') {
         data.cost = parseFloat(data.cost);
@@ -132,7 +166,7 @@ const DataDB = {
     // Expenses
     if (type === 'expense') {
       // We need a name
-      if (!data.name) {
+      if (!data.name || !data.name.trim()) {
         throw Error('Expenses need a name.');
       }
 
@@ -151,13 +185,13 @@ const DataDB = {
     // Expense Types
     if (type === 'type') {
       // We need a name
-      if (!data.name) {
+      if (!data.name || !data.name.trim()) {
         throw Error('Expense Types need a name.');
       }
 
       // Prevent reserved words
       if (data.name === 'uncategorized' || data.name === '(auto)') {
-        throw Error('Expense Type cannot be named "uncategorized" nor "(auto)".');
+        throw Error('Expense Types cannot be named "uncategorized" nor "(auto)".');
       }
 
       // We need a count

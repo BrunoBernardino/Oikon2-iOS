@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'left',
     paddingLeft: 10,
-    lineHeight: 65,
+    marginTop: 5,
   },
   type: {
     flex: 1,
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     paddingLeft: 10,
     marginBottom: -5,
-    lineHeight: 65,
   },
   date: {
     flex: 0.2,

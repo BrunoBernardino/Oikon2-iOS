@@ -1,14 +1,16 @@
 # Next:
 - [x] Upgrade dependencies
-- [ ] Fix upgrade issues (bad UI placements and non-reactive UI in some buttons)
-- [ ] Fix issue of adjacent keyboard view not showing when there's a modal in the back
-- [ ] Finish Implementing functionality for editing an expense
-- [ ] Add UI & Functionality for deleting an expense
+- [x] Fix upgrade issues (bad UI placements and non-reactive UI in some buttons)
+- [x] Fix issue of adjacent keyboard view not showing when there's a modal in the back
+- [x] Finish Implementing functionality for editing an expense
+- [x] Add UI & Functionality for deleting an expense
 - [ ] Add UI & Functionality for adding an expense type
 - [ ] Add UI & Functionality for editing an expense type
 - [ ] Add UI & Functionality for deleting an expense type
+- [ ] Implement functionality for automatically categorizing an expense (see last name-matching expense)
+- [ ] Implement functionality for automatically updating counts for expense types
+- [ ] Add button in settings to "reset" expense types counts
 - [ ] Implement functionality in settings
-- [ ] Implement functionality for automatically categorizing an expense (see previous name-matching, choose 80% or uncategorized)
 
 # Tests:
 - [ ] Test adding duplicate expense types
@@ -17,10 +19,11 @@
 - [ ] Test negative values for expenses
 - [ ] Test CSV import/export with unicode (ç, ª, à, etc.)
 - [ ] Test big CSV import/exports (100k rows)
+- [ ] Test bigger simulator screens
 
 # After app is working:
 - [ ] Build simple website (with FAQ), showcase demo with Appetize.io
-- [ ] Add instructions for how to setup CouchDB on Heroku, AWS, Google Cloud, or DigitalOcean
+- [ ] Suggest using [Cloudant](https://cloudant.com/sign-up/) for easy data sync
 
 # For much later:
 - [ ] Consider enabling an option for using CouchBase

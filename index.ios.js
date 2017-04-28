@@ -4,7 +4,8 @@ import {
   TabBarIOS,
   StatusBar,
   Text,
-  View
+  View,
+  Alert,
 } from 'react-native';
 import moment from 'moment';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
@@ -83,11 +84,17 @@ class Oikon2 extends Component {
     // Initialize data
     DataDB.init();
 
+    // TODO: Remove Some test data
+    // DataDB.add('type', {name: 'Car', cost: 0, count: 0});
+    // DataDB.add('type', {name: 'Food', cost: 15.32, count: 2});
+    // DataDB.add('expense', {name: 'Lunch', cost: 10, type: 'Food', date: '2017-04-27'});
+    // DataDB.add('expense', {name: 'Dinner', cost: 5.32, type: 'Food', date: ''});
+
     DataDB.get('expenses', (expenses) => {
       // Update state with fetched data
       this.setState({
         loadedData: true,
-        expenses: expenses
+        expenses: expenses,
       });
     });
 
@@ -96,15 +103,13 @@ class Oikon2 extends Component {
       // Update state with fetched data
       this.setState({
         loadedData: true,
-        types: types
+        types: types,
       });
     });
   }
 
   renderTabContent(tab) {
-    const simpleTypes = this.state.types.map((type) => {
-      return type.name;
-    });
+    const simpleTypes = this.state.types.map((type) => type.name);
 
     if (tab === 'addTab') {
       return (
@@ -253,11 +258,15 @@ class Oikon2 extends Component {
   //
   onAddExpense(expense) {
     try {
-      DataDB.add('expense', expense);
-      this.showSuccessMessage('Expense added successfully.');
+      DataDB.add('expense', expense)
+        .then(() => {
+          this.showSuccessMessage('Expense added successfully.');
 
-      this.loadData();
-
+          this.loadData();
+        })
+        .catch((e) => {
+          throw e;
+        });
       return true;
     } catch (error) {
       this.showErrorMessage(`There was an error adding your expense:\n${error}`);
@@ -282,10 +291,15 @@ class Oikon2 extends Component {
 
   onEditExpense(expense) {
     try {
-      DataDB.update('expense', expense);
-      this.showSuccessMessage('Expense updated successfully.');
+      DataDB.update('expense', expense)
+        .then(() => {
+          this.showSuccessMessage('Expense updated successfully.');
 
-      this.loadData();
+          this.loadData();
+        })
+        .catch((e) => {
+          throw e;
+        });
 
       return true;
     } catch (error) {
@@ -297,10 +311,15 @@ class Oikon2 extends Component {
 
   onDeleteExpense(expense) {
     try {
-      DataDB.delete('expense', expense);
-      this.showSuccessMessage('Expense deleted successfully.');
+      DataDB.delete('expense', expense)
+        .then(() => {
+          this.showSuccessMessage('Expense deleted successfully.');
 
-      this.loadData();
+          this.loadData();
+        })
+        .catch((e) => {
+          throw e;
+        });
 
       return true;
     } catch (error) {
@@ -332,7 +351,42 @@ class Oikon2 extends Component {
   }
 
   onDeleteAllPress() {
-    // TODO: Ask for confirmation, and delete all data locally and remotely, if necessary
+    Alert.alert(
+      'Are you sure?',
+      'Are you sure you want to delete all data?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel'
+        },
+        {
+          text: 'Confirm',
+          onPress: () => this.onDeleteAllConfirm(),
+          style: 'destructive'
+        },
+      ]
+    );
+  }
+
+  onDeleteAllConfirm() {
+    try {
+      DataDB.deleteDB()
+        .then(() => {
+          this.showSuccessMessage('Data deleted successfully.');
+
+          this.loadData();
+        })
+        .catch((e) => {
+          throw e;
+        });
+
+      return true;
+    } catch (error) {
+      this.showErrorMessage(`There was an error deleting your data:\n${error}`);
+
+      return false;
+    }
   }
 }
 

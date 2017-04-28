@@ -146,7 +146,7 @@ class EditExpenseModal extends Component {
       cost: this.state.cost,
       name: this.state.name,
       type: this.state.type,
-      date: this.state.date
+      date: this.state.date,
     };
 
     this.props.onSave(expense);

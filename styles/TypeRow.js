@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   cost: {
     flex: 0.5,
     fontFamily: 'HelveticaNeue',
-    lineHeight: 45,
+    lineHeight: 65,
     fontWeight: '300',
     fontSize: 26,
     color: 'white',
