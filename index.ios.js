@@ -137,6 +137,9 @@ class Oikon2 extends Component {
       return (
         <TypesTab
           types={this.state.types}
+          onAddType={this.onAddType.bind(this)}
+          onEditType={this.onEditType.bind(this)}
+          onDeleteType={this.onDeleteType.bind(this)}
         />
       );
     }
@@ -275,6 +278,25 @@ class Oikon2 extends Component {
     }
   }
 
+  onAddType(type) {
+    try {
+      DataDB.add('type', type)
+        .then(() => {
+          this.showSuccessMessage('Expense type added successfully.');
+
+          this.loadData();
+        })
+        .catch((e) => {
+          throw e;
+        });
+      return true;
+    } catch (error) {
+      this.showErrorMessage(`There was an error adding your expense type:\n${error}`);
+
+      return false;
+    }
+  }
+
   //
   // Expenses Actions
   //
@@ -324,6 +346,49 @@ class Oikon2 extends Component {
       return true;
     } catch (error) {
       this.showErrorMessage(`There was an error deleting your expense:\n${error}`);
+
+      return false;
+    }
+  }
+
+  //
+  // Expense Types Actions
+  //
+  onEditType(type) {
+    try {
+      DataDB.update('type', type)
+        .then(() => {
+          this.showSuccessMessage('Expense type updated successfully.');
+
+          this.loadData();
+        })
+        .catch((e) => {
+          throw e;
+        });
+
+      return true;
+    } catch (error) {
+      this.showErrorMessage(`There was an error updating your expense type:\n${error}`);
+
+      return false;
+    }
+  }
+
+  onDeleteType(type) {
+    try {
+      DataDB.delete('type', type)
+        .then(() => {
+          this.showSuccessMessage('Expense type deleted successfully.');
+
+          this.loadData();
+        })
+        .catch((e) => {
+          throw e;
+        });
+
+      return true;
+    } catch (error) {
+      this.showErrorMessage(`There was an error deleting your expense type:\n${error}`);
 
       return false;
     }

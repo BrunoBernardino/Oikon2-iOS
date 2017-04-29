@@ -8,10 +8,28 @@ import {
 } from 'react-native';
 
 import TypeRow from './TypeRow';
+import AddTypeModal from './AddTypeModal';
+import EditTypeModal from './EditTypeModal';
 
 import styles from '../styles/TypesTab';
 
 class TypesTab extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showingAddModal: false,
+      showingEditModal: false,
+      typeBeingEdited: {
+        _id: '',
+        _rev: '',
+        name: '',
+        cost: '',
+        count: '',
+      }
+    };
+  }
+
   renderTypeRow(type, source, rowIndex) {
     return (
       <TypeRow
@@ -19,12 +37,34 @@ class TypesTab extends Component {
         name={type.name}
         count={type.count}
         cost={type.cost}
+        onTouch={this.showEditModal.bind(this, type)}
       />
     );
   }
 
-  onAddPress() {
-    // TODO: Show pane
+  showEditModal(type) {
+    this.setState({
+      showingEditModal: true,
+      typeBeingEdited: type
+    });
+  }
+
+  hideEditModal() {
+    this.setState({
+      showingEditModal: false
+    });
+  }
+
+  showAddModal() {
+    this.setState({
+      showingAddModal: true,
+    });
+  }
+
+  hideAddModal() {
+    this.setState({
+      showingAddModal: false
+    });
   }
 
   render() {
@@ -32,13 +72,15 @@ class TypesTab extends Component {
 
     const listTypes = dataSource.cloneWithRows(this.props.types);
 
+    const { onAddType, onEditType, onDeleteType } = this.props;
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <View style={styles.buttonContainer}>
           <TouchableHighlight
             style={styles.button}
-            onPress={this.onAddPress.bind(this)}
+            onPress={this.showAddModal.bind(this)}
             underlayColor="rgba(255, 255, 255, 0.3)"
           >
             <Text style={styles.buttonText}>Add New Expense Type</Text>
@@ -46,10 +88,22 @@ class TypesTab extends Component {
         </View>
         <ListView
           dataSource={listTypes}
-          renderRow={this.renderTypeRow}
+          renderRow={this.renderTypeRow.bind(this)}
           style={styles.listContainer}
           automaticallyAdjustContentInsets={false}
           enableEmptySections={true}
+        />
+        <EditTypeModal
+          visible={this.state.showingEditModal}
+          type={this.state.typeBeingEdited}
+          onSave={onEditType}
+          onClose={this.hideEditModal.bind(this)}
+          onDelete={onDeleteType}
+        />
+        <AddTypeModal
+          visible={this.state.showingAddModal}
+          onSave={onAddType}
+          onClose={this.hideAddModal.bind(this)}
         />
       </View>
     );
@@ -62,6 +116,9 @@ TypesTab.propTypes = {
     count: React.PropTypes.number.isRequired,
     cost: React.PropTypes.number.isRequired
   })).isRequired,
+  onAddType: React.PropTypes.func.isRequired,
+  onEditType: React.PropTypes.func.isRequired,
+  onDeleteType: React.PropTypes.func.isRequired,
 };
 
 export default TypesTab;

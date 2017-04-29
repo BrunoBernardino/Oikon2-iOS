@@ -4,13 +4,14 @@
 - [x] Fix issue of adjacent keyboard view not showing when there's a modal in the back
 - [x] Finish Implementing functionality for editing an expense
 - [x] Add UI & Functionality for deleting an expense
-- [ ] Add UI & Functionality for adding an expense type
-- [ ] Add UI & Functionality for editing an expense type
-- [ ] Add UI & Functionality for deleting an expense type
-- [ ] Implement functionality for automatically categorizing an expense (see last name-matching expense)
+- [x] Add UI & Functionality for adding an expense type
+- [x] Add UI & Functionality for editing an expense type
+- [x] Add UI & Functionality for deleting an expense type
+- [ ] Implement functionality for automatically categorizing an expense on add (find last name-matching expense)
 - [ ] Implement functionality for automatically updating counts for expense types
 - [ ] Add button in settings to "reset" expense types counts
 - [ ] Implement functionality in settings
+- [ ] Try to make modals go up when keyboard is covering (edit expense and add + edit expense type)
 
 # Tests:
 - [ ] Test adding duplicate expense types
