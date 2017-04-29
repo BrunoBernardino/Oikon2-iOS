@@ -1,4 +1,5 @@
 import PouchDB from 'pouchdb-react-native';
+import PouchDBFind from 'pouchdb-find';
 import _ from 'lodash';
 import moment from 'moment';
 
@@ -10,12 +11,26 @@ const genericErrorHandler = (error) => {
 };
 
 // TODO: API Docs: https://pouchdb.com/api.html
+// Add .find plugin
+PouchDB.plugin(PouchDBFind);
 
 const DataDB = {
   init() {
 
     this.expensesDB = new PouchDB(EXPENSES_URI);
     this.typesDB = new PouchDB(TYPES_URI);
+
+    // Add indexes
+    this.expensesDB.createIndex({
+      index: {
+        fields: ['name', 'date'],
+      },
+    });
+    this.typesDB.createIndex({
+      index: {
+        fields: ['name'],
+      },
+    });
 
     // TODO: Sync w/ Remote if any
     // this.remoteExpensesDB = new PouchDB(`http://localhost:5984/${EXPENSES_URI}`);
@@ -42,15 +57,47 @@ const DataDB = {
         limit: null
       })
       .then((result) => {
-        const rows = result.rows.map((row) => row.doc);
+        const rows = result.rows
+          .filter((row) => (row.id.indexOf('_design/') === -1)) // strip "indexes"
+          .map((row) => row.doc); // get the details/doc
+
         callback(rows);
       })
       .catch(genericErrorHandler);
   },
 
+  // Gets the last found expense type for a given expense name
+  async getLastTypeForExpense(expenseName) {
+    return this.expensesDB
+      .find({
+        selector: {
+          name: expenseName,
+          date: {
+            '$gt': null, // $exists : true doesn't work
+          },
+        },
+        fields: ['type'],
+        sort: [{
+          date: 'desc',
+        }],
+        limit: 1,
+      })
+      .then((result) => {
+        const rows = result.docs;
+
+        if (rows.length > 0) {
+          return rows[0].type;
+        }
+
+        // Default "uncategorized"
+        return '';
+      })
+      .catch(genericErrorHandler);
+  },
+
   // Add a new row
-  add(type, data) {
-    this.validate(type, data);
+  async add(type, data) {
+    await this.validate(type, data);
 
     // TODO: If adding an expense, update the expense type cost + count
 
@@ -60,8 +107,8 @@ const DataDB = {
   },
 
   // Update a row
-  update(type, data) {
-    this.validate(type, data);
+  async update(type, data) {
+    await this.validate(type, data);
 
     // TODO: If updating an expense, update the expense type cost + count
 
@@ -104,7 +151,7 @@ const DataDB = {
   },
 
   // Potentially Parse data
-  potentiallyParse(type, data) {
+  async potentiallyParse(type, data) {
     // Expenses
     if (type === 'expense') {
       // Trim name
@@ -128,11 +175,20 @@ const DataDB = {
         data.date = moment(data.date).format('YYYY-MM-DD');
       }
 
-      // Convert 'uncategorized' or '(auto)' to empty string
-      if (data.type === 'uncategorized' || data.type === '(auto)') {
-        data.type = '';
+      // Convert empty or '(auto)' to an automatic type
+      if (data.type === '' || data.type === '(auto)') {
+        try {
+          data.type = await this.getLastTypeForExpense(data.name) || '';
+        } catch (e) {
+          data.type = '';
+        }
 
-        // TODO: Add automatic type
+        return Promise.resolve();
+      }
+
+      // Convert 'uncategorized' to empty string
+      if (data.type === 'uncategorized') {
+        data.type = '';
       }
 
     }
@@ -152,16 +208,18 @@ const DataDB = {
         data.count = parseInt(data.count, 10);
       }
     }
+
+    return Promise.resolve();
   },
 
   // Validate data
-  validate(type, data) {
+  async validate(type, data) {
     // Common
     if (_.isEmpty(data)) {
       throw Error('No data received.');
     }
 
-    this.potentiallyParse(type, data);
+    await this.potentiallyParse(type, data);
 
     // Expenses
     if (type === 'expense') {

@@ -7,7 +7,7 @@
 - [x] Add UI & Functionality for adding an expense type
 - [x] Add UI & Functionality for editing an expense type
 - [x] Add UI & Functionality for deleting an expense type
-- [ ] Implement functionality for automatically categorizing an expense on add (find last name-matching expense)
+- [x] Implement functionality for automatically categorizing an expense on add (find last name-matching expense)
 - [ ] Implement functionality for automatically updating counts for expense types
 - [ ] Add button in settings to "reset" expense types counts
 - [ ] Implement functionality in settings

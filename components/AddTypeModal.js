@@ -20,8 +20,6 @@ class AddTypeModal extends Component {
 
     this.state = {
       name: '',
-      count: '',
-      cost: '',
       focusedInput: '',
       showingKeyboard: false,
       keyboardY: 0,
@@ -83,10 +81,17 @@ class AddTypeModal extends Component {
       cost: 0,
     };
 
-    this.props.onSave(type);
+    const success = this.props.onSave(type);
+
     this.hideAllInputs();
     // This is necessary so both views actually go away
     setTimeout(this.props.onClose.bind(this), 0);
+
+    if (success) {
+      this.setState({
+        name: '',
+      });
+    }
   }
 
   render() {
