@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
   emptySpace: {
     flex: 0.75,
   },
+  emptyShortSpace: {
+    flex: 0.15,
+  },
   headerGroup: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

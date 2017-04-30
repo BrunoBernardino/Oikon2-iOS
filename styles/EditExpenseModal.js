@@ -14,6 +14,16 @@ const styles = StyleSheet.create({
   emptySpace: {
     flex: 0.5,
   },
+  higherPane: {
+    flex: 0.4,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderTopColor: 'rgba(255, 255, 255, 0.8)',
+    borderTopWidth: 1,
+    marginBottom: 180,
+  },
+  emptyShortSpace: {
+    flex: 0.15,
+  },
   headerGroup: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

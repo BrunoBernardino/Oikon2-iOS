@@ -18,8 +18,6 @@ class CommonTopKeyboardView extends Component {
       onNextPress,
     } = this.props;
 
-    // TODO: This isn't showing when there's a modal in the background (EditExpenseModal)
-
     // Don't show if it shouldn't
     if (!visible) {
       return null;

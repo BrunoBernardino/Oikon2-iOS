@@ -27,13 +27,13 @@ class AddTypeModal extends Component {
     };
   }
 
-  componentWillMount () {
+  componentWillMount() {
     // Listen for when the keyboard will show/hide to add the common adjacent top view
     Keyboard.addListener('keyboardWillShow', this.keyboardWillShow.bind(this));
     Keyboard.addListener('keyboardWillHide', this.keyboardWillHide.bind(this));
   }
 
-  keyboardWillShow (frame) {
+  keyboardWillShow(frame) {
     // Show the common adjacent top view
     this.setState({
       showingKeyboard: true,
@@ -42,7 +42,7 @@ class AddTypeModal extends Component {
     });
   }
 
-  keyboardWillHide () {
+  keyboardWillHide() {
     // Hide the common adjacent top view
     this.setState({
       showingKeyboard: false
@@ -94,6 +94,12 @@ class AddTypeModal extends Component {
     }
   }
 
+  onShow() {
+    if (this.props.visible && !this.state.showingKeyboard) {
+      this.refs.nameInput.focus();
+    }
+  }
+
   render() {
     const { visible, onClose } = this.props;
 
@@ -103,9 +109,10 @@ class AddTypeModal extends Component {
         transparent={true}
         visible={visible}
         onRequestClose={onClose}
+        onShow={this.onShow.bind(this)}
         >
         <BlurView blurType="light" style={styles.container}>
-          <View style={styles.emptySpace}></View>
+          <View style={this.state.showingKeyboard ? styles.emptyShortSpace : styles.emptySpace}></View>
           <View style={styles.pane}>
             <View style={styles.headerGroup}>
               <Text style={styles.titleText}>New Expense Type</Text>

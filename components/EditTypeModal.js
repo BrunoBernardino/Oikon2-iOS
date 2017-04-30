@@ -149,7 +149,7 @@ class EditTypeModal extends Component {
         onRequestClose={onClose}
         >
         <BlurView blurType="light" style={styles.container}>
-          <View style={styles.emptySpace}></View>
+          <View style={this.state.showingKeyboard ? styles.emptyShortSpace : styles.emptySpace}></View>
           <View style={styles.pane}>
             <View style={styles.headerGroup}>
               <TouchableHighlight
