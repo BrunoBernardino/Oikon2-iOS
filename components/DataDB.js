@@ -26,11 +26,18 @@ const DataDB = {
         fields: ['name', 'date'],
       },
     });
+    this.expensesDB.createIndex({
+      index: {
+        fields: ['type'],
+      },
+    });
     this.typesDB.createIndex({
       index: {
         fields: ['name'],
       },
     });
+
+    // this.getStatsForType('Food');// TODO: Use for settings, loop through each type
 
     // TODO: Sync w/ Remote if any
     // this.remoteExpensesDB = new PouchDB(`http://localhost:5984/${EXPENSES_URI}`);
@@ -261,6 +268,39 @@ const DataDB = {
       if (!_.isNumber(data.cost) || isNaN(data.cost)) {
         throw Error('Expense Types need a cost, even if 0.');
       }
+    }
+  },
+
+  // Get expense counts and costs for a given expense type
+  async getStatsForType(typeName) {
+    const stats = {
+      cost: 0,
+      count: 0,
+    };
+
+    try {
+      const result = await this.expensesDB.find({
+        selector: {
+          type: typeName,
+        },
+        fields: ['cost'],
+        limit: null,
+      });
+
+      const rows = result.docs;
+
+      if (rows.length === 0) {
+        return stats;
+      }
+
+      rows.forEach((row) => {
+        stats.count += 1;
+        stats.cost += row.cost;
+      });
+
+      return stats;
+    } catch (e) {
+      return stats;
     }
   }
 };

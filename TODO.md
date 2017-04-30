@@ -9,7 +9,7 @@
 - [x] Add UI & Functionality for deleting an expense type
 - [x] Implement functionality for automatically categorizing an expense on add (find last name-matching expense)
 - [ ] Implement functionality for automatically updating counts for expense types
-- [ ] Add button in settings to "reset" expense types counts
+- [ ] Add button in settings to "reload" expense types counts
 - [ ] Implement functionality in settings
 - [ ] Try to make modals go up when keyboard is covering (edit expense and add + edit expense type)
 

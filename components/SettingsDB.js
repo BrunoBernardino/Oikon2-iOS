@@ -14,7 +14,7 @@ const SettingsDB = {
       const allKeys = await AsyncStorage.getAllKeys();
       let keysToFetch = [];
 
-      // If it's part of settings, add it to be fetch
+      // If it's part of settings, add it to be fetched
       _.each(allKeys, (key) => {
         if (key.indexOf(SETTINGS_KEY_PREFIX) !== -1) {
           keysToFetch.push(key);
@@ -29,7 +29,7 @@ const SettingsDB = {
         const parsedKey = item[0].replace(`${SETTINGS_KEY_PREFIX}.`, '');
         settings[parsedKey] = item[1];
       });
-    } catch(e) {}
+    } catch (e) {}
   },
 
   // Will return a string or array of strings
@@ -64,7 +64,7 @@ const SettingsDB = {
 
     try {
       AsyncStorage.setItem(`${SETTINGS_KEY_PREFIX}.${name}`, value);
-    } catch(e) {}
+    } catch (e) {}
   }
 };
 
