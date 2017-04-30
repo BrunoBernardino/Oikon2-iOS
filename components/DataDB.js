@@ -10,7 +10,6 @@ const genericErrorHandler = (error) => {
   console.error(error);
 };
 
-// TODO: API Docs: https://pouchdb.com/api.html
 // Add .find plugin
 PouchDB.plugin(PouchDBFind);
 
@@ -106,7 +105,10 @@ const DataDB = {
   async add(type, data) {
     await this.validate(type, data);
 
-    // TODO: If adding an expense, update the expense type cost + count
+    // If adding an expense, update the expense type cost + count
+    if (type === 'expense' || type === 'expenses' || data.type !== '') {
+      await this.incrementStatsForType(data.type, data.cost);
+    }
 
     return this.chooseDB(type)
       .post(data)
@@ -117,17 +119,22 @@ const DataDB = {
   async update(type, data) {
     await this.validate(type, data);
 
-    // TODO: If updating an expense, update the expense type cost + count
-
     return this.chooseDB(type)
       .put(data)
       .catch(genericErrorHandler);
   },
 
   // Delete a row
-  delete(type, data) {
-    // TODO: If deleting an expense, update the expense type cost + count
-    // TODO: If deleting an expense type, update the expenses
+  async delete(type, data) {
+    // If deleting an expense, update the expense type cost + count
+    if ((type === 'expense' || type === 'expenses') && data.type !== '') {
+      await this.incrementStatsForType(data.type, data.cost, -1);
+    }
+
+    // If deleting an expense type, update the expenses
+    if (type === 'type' || type === 'types') {
+      await this.removeTypeFromExpenses(data.name);
+    }
 
     return this.chooseDB(type)
       .remove(data)
@@ -160,7 +167,7 @@ const DataDB = {
   // Potentially Parse data
   async potentiallyParse(type, data) {
     // Expenses
-    if (type === 'expense') {
+    if (type === 'expense' || type === 'expenses') {
       // Trim name
       data.name = data.name.trim();
 
@@ -201,7 +208,7 @@ const DataDB = {
     }
 
     // Expense Types
-    if (type === 'type') {
+    if (type === 'type' || type === 'types') {
       // Trim name
       data.name = data.name.trim();
 
@@ -229,7 +236,7 @@ const DataDB = {
     await this.potentiallyParse(type, data);
 
     // Expenses
-    if (type === 'expense') {
+    if (type === 'expense' || type === 'expenses') {
       // We need a name
       if (!data.name || !data.name.trim()) {
         throw Error('Expenses need a name.');
@@ -248,7 +255,7 @@ const DataDB = {
     }
 
     // Expense Types
-    if (type === 'type') {
+    if (type === 'type' || type === 'types') {
       // We need a name
       if (!data.name || !data.name.trim()) {
         throw Error('Expense Types need a name.');
@@ -302,7 +309,64 @@ const DataDB = {
     } catch (e) {
       return stats;
     }
-  }
+  },
+
+  // Increment count and cost for a given expense type
+  async incrementStatsForType(typeName, expenseCost, expenseCount = 1) {
+    try {
+      const result = await this.expensesDB.find({
+        selector: {
+          name: typeName,
+        },
+        limit: 1,
+      });
+
+      const rows = result.docs;
+
+      if (rows.length !== 1) {
+        return false;
+      }
+
+      const row = rows[0];
+      row.count += expenseCount;
+      row.cost += expenseCost * expenseCount;
+
+      await this.update('type', row);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+
+  async removeTypeFromExpenses(typeName) {
+    try {
+      const result = await this.expensesDB.find({
+        selector: {
+          type: typeName,
+        },
+        limit: null,
+      });
+
+      const rows = result.docs;
+
+      if (rows.length === 0) {
+        return false;
+      }
+
+      let row = rows.pop();
+
+      while (row) {
+        row.type = 'uncategorized'; // auto-parsing will make it ''
+        await this.update('expense', row);
+        row = rows.pop();
+      }
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
 };
 
 export default DataDB;

@@ -8,10 +8,13 @@
 - [x] Add UI & Functionality for editing an expense type
 - [x] Add UI & Functionality for deleting an expense type
 - [x] Implement functionality for automatically categorizing an expense on add (find last name-matching expense)
-- [ ] Implement functionality for automatically updating counts for expense types
-- [ ] Add button in settings to "reload" expense types counts
-- [ ] Implement functionality in settings
+- [x] Implement functionality for automatically updating counts for expense types
 - [ ] Try to make modals go up when keyboard is covering (edit expense and add + edit expense type)
+- [ ] Auto-focus on name when adding type
+- [ ] Automatically "reload" expense types stats when entering settings, at most once a week
+- [ ] Implement export functionality in settings
+- [ ] Implement import functionality in settings
+- [ ] Implement remoteDB + Sync (when pressing Done after editing the URL) functionality in settings
 
 # Tests:
 - [ ] Test adding duplicate expense types
