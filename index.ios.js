@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import FileSystem from 'react-native-fs';
 
 import SettingsDB from './components/SettingsDB';
 import DataDB from './components/DataDB';
@@ -447,22 +448,38 @@ class Oikon2 extends Component {
 
   onExportPress() {
     // TODO: Create CSV file: https://github.com/itinance/react-native-fs#file-creation
+    const now = moment().format('x');
+    const path = `${FileSystem.DocumentDirectoryPath}/${now}.csv`;
+    const csvContents = ['testing,yeah', '1,2'].join('\n');// TODO
 
-    // TODO: Send email: https://github.com/chirag04/react-native-mail
-    Mailer.mail({
-      subject: 'CSV Export',
-      body: 'Check out my awesome CSV!',
-      attachment: {
-        path: '',  // The absolute path of the file from which to read data.
-        type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
-        name: '',   // Optional: Custom filename for attachment
-      },
-    }, (error) => {
-      if (error) {
-        console.log(error);
-        this.showErrorMessage('Could not send mail. Make sure you have Mail installed with an account setup.');
-      }
-    });
+    FileSystem.writeFile(path, csvContents, 'utf8')
+      .then(() => {
+        console.log('FILE WRITTEN!');
+
+        // TODO: Send email: https://github.com/chirag04/react-native-mail
+        Mailer.mail({
+          subject: 'CSV Export',
+          body: 'Check out my awesome CSV!',
+          attachment: {
+            path: path,
+            type: 'csv',
+            name: `export-${now}.csv`,
+          },
+        }, (error) => {
+          if (error) {
+            console.log('OPENING MAIL FAILED!');
+            console.log(error);
+            this.showErrorMessage('Could not open Mail. Make sure you have Mail installed with an account setup.');
+          } else {
+            // Delete file
+            FileSystem.unlink(path);
+          }
+        });
+      })
+      .catch((err) => {
+        console.log('FILE NOT WRITTEN!');
+        console.log(err);
+      });
   }
 
   onImportPress() {
