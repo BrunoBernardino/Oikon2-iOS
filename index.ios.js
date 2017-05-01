@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Alert,
+  NativeModules,
 } from 'react-native';
 import moment from 'moment';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
@@ -20,6 +21,8 @@ import TypesTab from './components/TypesTab';
 import SettingsTab from './components/SettingsTab';
 
 import styles from './styles/index.ios.js';
+
+const Mailer = NativeModules.RNMail;
 
 class Oikon2 extends Component {
   constructor(props) {
@@ -443,7 +446,23 @@ class Oikon2 extends Component {
   }
 
   onExportPress() {
-    // TODO: Create CSV file and send email
+    // TODO: Create CSV file: https://github.com/itinance/react-native-fs#file-creation
+
+    // TODO: Send email: https://github.com/chirag04/react-native-mail
+    Mailer.mail({
+      subject: 'CSV Export',
+      body: 'Check out my awesome CSV!',
+      attachment: {
+        path: '',  // The absolute path of the file from which to read data.
+        type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
+        name: '',   // Optional: Custom filename for attachment
+      },
+    }, (error) => {
+      if (error) {
+        console.log(error);
+        this.showErrorMessage('Could not send mail. Make sure you have Mail installed with an account setup.');
+      }
+    });
   }
 
   onImportPress() {
