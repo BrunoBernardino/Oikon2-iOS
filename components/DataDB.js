@@ -36,8 +36,6 @@ const DataDB = {
       },
     });
 
-    // this.getStatsForType('Food');// TODO: Use for settings, loop through each type
-
     // TODO: Sync w/ Remote if any
     // this.remoteExpensesDB = new PouchDB(`http://localhost:5984/${EXPENSES_URI}`);
     // this.expensesDB.sync(this.remoteExpensesDB, {

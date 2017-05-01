@@ -39,6 +39,7 @@ class Oikon2 extends Component {
         search: ''
       },
       remoteURL: '',
+      lastStatsSync: '',
 
       // Data
       expenses: [],
@@ -64,6 +65,7 @@ class Oikon2 extends Component {
         const visibleTypesFilter = SettingsDB.get('filters-visibleTypes', [], true);
         const searchFilter = SettingsDB.get('filters-search', '');
         const remoteURL = SettingsDB.get('remoteURL', '');
+        const lastStatsSync = SettingsDB.get('last-stats-sync', '');
 
         this.setState({
           loadedSettings: true,
@@ -73,7 +75,8 @@ class Oikon2 extends Component {
             visibleTypes: visibleTypesFilter,
             search: searchFilter,
           },
-          remoteURL: remoteURL
+          remoteURL,
+          lastStatsSync,
         });
       });
 
@@ -148,7 +151,9 @@ class Oikon2 extends Component {
       return (
         <SettingsTab
           remoteURL={this.state.remoteURL}
+          lastStatsSync={this.state.lastStatsSync}
           onRemoteURLChange={this.onRemoteURLChange.bind(this)}
+          onStatsSync={this.onStatsSync.bind(this)}
           onExportPress={this.onExportPress.bind(this)}
           onImportPress={this.onImportPress.bind(this)}
           onDeleteAllPress={this.onDeleteAllPress.bind(this)}
@@ -405,6 +410,36 @@ class Oikon2 extends Component {
     this.setState({
       remoteURL: newURL
     });
+  }
+
+  async onStatsSync() {
+    const now = moment().format('YYYY-MM-DD');
+    SettingsDB.set('last-stats-sync', now);
+
+    this.setState({
+      lastStatsSync: now
+    });
+
+    // It's cool this is non-blocking, it's not critical
+    try {
+      const types = JSON.parse(JSON.stringify(this.state.types));
+
+      let type = types.pop();
+      while (type) {
+        const stats = await DataDB.getStatsForType(type.name);
+
+        type.count = stats.count;
+        type.cost = stats.cost;
+
+        await DataDB.update('type', type);
+
+        type = types.pop();
+      }
+
+      this.loadData();
+    } catch (e) {
+      // Ignore
+    }
   }
 
   onExportPress() {

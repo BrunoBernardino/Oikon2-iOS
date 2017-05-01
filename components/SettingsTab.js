@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   Linking,
 } from 'react-native';
+import moment from 'moment';
 
 import BigInput from './BigInput';
 
@@ -16,6 +17,24 @@ import styles from '../styles/SettingsTab';
 class SettingsTab extends Component {
   openURL() {
     Linking.openURL('https://oikon.net');
+  }
+
+  onLoad() {
+    const { lastStatsSync, onStatsSync } = this.props;
+
+    // If the stats (expense types' total count and cost) have never been synchronized, do it now
+    if (!lastStatsSync) {
+      onStatsSync();
+    } else {
+      // Otherwise only do it if it hasn't been done in more than a week
+      const now = moment();
+      const lastSync = moment(lastStatsSync, 'YYYY-MM-DD');
+      const daysDifference = now.diff(lastSync, 'days');
+
+      if (daysDifference >= 7) {
+        onStatsSync();
+      }
+    }
   }
 
   render() {
@@ -28,7 +47,7 @@ class SettingsTab extends Component {
     } = this.props;
 
     return (
-      <View style={styles.container}>
+      <View style={styles.container} onLayout={this.onLoad.bind(this)}>
         <StatusBar barStyle="light-content" />
         <View style={styles.logoContainer}>
           <Image source={ require('../assets/logo.png') } />
@@ -93,7 +112,9 @@ class SettingsTab extends Component {
 
 SettingsTab.propTypes = {
   remoteURL: React.PropTypes.string.isRequired,
+  lastStatsSync: React.PropTypes.string.isRequired,
   onRemoteURLChange: React.PropTypes.func.isRequired,
+  onStatsSync: React.PropTypes.func.isRequired,
   onExportPress: React.PropTypes.func.isRequired,
   onImportPress: React.PropTypes.func.isRequired,
   onDeleteAllPress: React.PropTypes.func.isRequired,
