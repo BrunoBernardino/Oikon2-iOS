@@ -66,7 +66,7 @@ class Oikon2 extends Component {
         // Update state with fetched settings
         const startDateFilter = SettingsDB.get('filters-startDate', moment().startOf('month').format('YYYY-MM-DD'));
         const endDateFilter = SettingsDB.get('filters-endDate', moment().endOf('month').format('YYYY-MM-DD'));
-        const visibleTypesFilter = SettingsDB.get('filters-visibleTypes', [], true);
+        const visibleTypesFilter = SettingsDB.get('filters-visibleTypes', '', true);
         const searchFilter = SettingsDB.get('filters-search', '');
         const remoteURL = SettingsDB.get('remoteURL', '');
         const lastStatsSync = SettingsDB.get('last-stats-sync', '');
@@ -446,39 +446,58 @@ class Oikon2 extends Component {
     }
   }
 
+  prepareValueForCSV(value) {
+    return value.replace(',', ';')
+      .replace('\n', ' ')
+      .replace('"', '\'');
+  }
+
+  getCSVContents() {
+    // Compatible with Oikon 1
+    const lines = [
+      'Name,Type,Date,Value',
+    ];
+
+    this.state.expenses.forEach((expense) => {
+      const expenseName = this.prepareValueForCSV(expense.name);
+      const expenseType = this.prepareValueForCSV(expense.type || 'uncategorized');
+      const expenseDate = this.prepareValueForCSV(expense.date);
+      const expenseValue = this.prepareValueForCSV(expense.cost.toFixed(2));
+
+      lines.push(`${expenseName},${expenseType},${expenseDate},${expenseValue}`);
+    });
+
+    return lines.join('\n');
+  }
+
   onExportPress() {
-    // TODO: Create CSV file: https://github.com/itinance/react-native-fs#file-creation
+    // Create CSV file
     const now = moment().format('x');
     const path = `${FileSystem.DocumentDirectoryPath}/${now}.csv`;
-    const csvContents = ['testing,yeah', '1,2'].join('\n');// TODO
+    const csvContents = this.getCSVContents();
 
     FileSystem.writeFile(path, csvContents, 'utf8')
       .then(() => {
-        console.log('FILE WRITTEN!');
-
-        // TODO: Send email: https://github.com/chirag04/react-native-mail
+        // Open mail handler
         Mailer.mail({
-          subject: 'CSV Export',
-          body: 'Check out my awesome CSV!',
+          subject: 'Oikon CSV Export',
+          body: 'Enjoy this CSV file with my expense data.',
           attachment: {
             path: path,
             type: 'csv',
-            name: `export-${now}.csv`,
+            name: `oikon-export-${now}.csv`,
           },
         }, (error) => {
           if (error) {
-            console.log('OPENING MAIL FAILED!');
-            console.log(error);
             this.showErrorMessage('Could not open Mail. Make sure you have Mail installed with an account setup.');
           } else {
-            // Delete file
+            // Delete file now that we don't need it
             FileSystem.unlink(path);
           }
         });
       })
-      .catch((err) => {
-        console.log('FILE NOT WRITTEN!');
-        console.log(err);
+      .catch((/* err */) => {
+        // Ignore
       });
   }
 

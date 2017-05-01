@@ -28,8 +28,12 @@ const SettingsDB = {
       _.each(allSettings, (item) => {
         const parsedKey = item[0].replace(`${SETTINGS_KEY_PREFIX}.`, '');
         settings[parsedKey] = item[1];
+
+        // AsyncStorage.removeItem(item[0]);// TODO: test removal
       });
-    } catch (e) {}
+    } catch (e) {
+      // Ignore
+    }
   },
 
   // Will return a string or array of strings
@@ -64,7 +68,9 @@ const SettingsDB = {
 
     try {
       AsyncStorage.setItem(`${SETTINGS_KEY_PREFIX}.${name}`, value);
-    } catch (e) {}
+    } catch (e) {
+      // Ignore
+    }
   }
 };
 

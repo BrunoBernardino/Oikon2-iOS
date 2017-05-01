@@ -34,12 +34,15 @@ const styles = StyleSheet.create({
   name: {
     flex: 1,
     fontFamily: 'HelveticaNeue',
+    lineHeight: 30,
     fontWeight: '300',
     fontSize: 30,
     color: 'white',
     textAlign: 'left',
     paddingLeft: 10,
-    marginTop: 5,
+    /* This fixes things like a "g" being cut-off vertically */
+    paddingTop: -5,
+    marginTop: 10,
   },
   type: {
     flex: 1,

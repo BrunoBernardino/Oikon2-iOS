@@ -29,10 +29,10 @@ class TypeRow extends Component {
       >
         <View style={rowStyle}>
           <View style={styles.nameGroup}>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.count}>{showCount}</Text>
+            <Text style={styles.name} numberOfLines={1}>{name}</Text>
+            <Text style={styles.count} numberOfLines={1}>{showCount}</Text>
           </View>
-          <Text style={styles.cost}>{showCost}</Text>
+          <Text style={styles.cost} numberOfLines={1}>{showCost}</Text>
         </View>
       </TouchableHighlight>
     );

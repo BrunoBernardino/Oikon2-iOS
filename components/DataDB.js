@@ -188,7 +188,7 @@ const DataDB = {
       }
 
       // Convert empty or '(auto)' to an automatic type
-      if (data.type === '' || data.type === '(auto)') {
+      if (!data.type || data.type === '(auto)') {
         try {
           data.type = await this.getLastTypeForExpense(data.name) || '';
         } catch (e) {

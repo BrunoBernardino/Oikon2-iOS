@@ -12,7 +12,8 @@
 - [x] Try to make modals go up when keyboard is covering (edit expense and add + edit expense type)
 - [x] Auto-focus on name when adding type
 - [x] Automatically "reload" expense types stats when entering settings, at most once a week
-- [ ] Implement export functionality in settings
+- [x] Fix small UI oddities (cut-off "g", etc.)
+- [x] Implement export functionality in settings
 - [ ] Implement import functionality in settings
 - [ ] Implement remoteDB + Sync (when pressing Done after editing the URL) functionality in settings
 
