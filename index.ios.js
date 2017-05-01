@@ -24,6 +24,7 @@ import SettingsTab from './components/SettingsTab';
 import styles from './styles/index.ios.js';
 
 const Mailer = NativeModules.RNMail;
+const DocumentPicker = NativeModules.RNDocumentPicker;
 
 class Oikon2 extends Component {
   constructor(props) {
@@ -115,6 +116,14 @@ class Oikon2 extends Component {
     });
   }
 
+  onExpensesLoad() {
+    this.loadData();
+  }
+
+  onTypesLoad() {
+    this.onStatsSync();
+  }
+
   renderTabContent(tab) {
     const simpleTypes = this.state.types.map((type) => type.name);
 
@@ -136,6 +145,7 @@ class Oikon2 extends Component {
           onFiltersChange={this.onFiltersChange.bind(this)}
           onEditExpense={this.onEditExpense.bind(this)}
           onDeleteExpense={this.onDeleteExpense.bind(this)}
+          onLoad={this.onExpensesLoad.bind(this)}
         />
       );
     }
@@ -147,6 +157,7 @@ class Oikon2 extends Component {
           onAddType={this.onAddType.bind(this)}
           onEditType={this.onEditType.bind(this)}
           onDeleteType={this.onDeleteType.bind(this)}
+          onLoad={this.onTypesLoad.bind(this)}
         />
       );
     }
@@ -428,7 +439,7 @@ class Oikon2 extends Component {
     try {
       const types = JSON.parse(JSON.stringify(this.state.types));
 
-      let type = types.pop();
+      let type = types.shift();
       while (type) {
         const stats = await DataDB.getStatsForType(type.name);
 
@@ -437,7 +448,7 @@ class Oikon2 extends Component {
 
         await DataDB.update('type', type);
 
-        type = types.pop();
+        type = types.shift();
       }
 
       this.loadData();
@@ -501,8 +512,60 @@ class Oikon2 extends Component {
       });
   }
 
+  async parseDataFromCSV(contents) {
+    const lines = contents.split('\n');
+
+    if (lines.length < 1 || lines[0] !== 'Name,Type,Date,Value') {
+      return Promise.reject('Invalid format');
+    }
+
+    lines.shift();// Remove the first line
+    let line = lines.shift();
+
+    while (line) {
+      const values = line.split(',');
+
+      const expense = {
+        name: values[0],
+        type: values[1],
+        date: values[2],
+        cost: parseFloat(values[3]),
+      };
+
+      await DataDB.add('expense', expense);
+
+      // Try to add the expense type, but don't worry about failures
+      try {
+        const type = {
+          name: expense.type,
+        };
+
+        await DataDB.add('type', type);
+      } catch (e) {
+        // Ignore
+      }
+
+      line = lines.shift();
+    }
+
+    return Promise.resolve(true);
+  }
+
   onImportPress() {
-    // TODO: Ask to select a CSV file, and import
+    // Ask to select a CSV file, and parse it
+    DocumentPicker.show({
+      filetype: ['public.plain-text'],
+    }, (error, file) => {
+      if (!error) {
+        FileSystem.readFile(file.uri, 'utf8')
+          .then((contents) => this.parseDataFromCSV(contents))
+          .then(() => this.onStatsSync())// This will trigger a reload of data as well
+          .then(() => this.showSuccessMessage('Expenses and expense types imported successfully!'))
+          .catch(() => this.showErrorMessage('Could not parse the file. Please make sure it\'s an Oikon-compatible CSV file.'));
+      } else {
+        this.showErrorMessage('Could not read the file. Please make sure it\'s a CSV file.');
+      }
+    });
   }
 
   onDeleteAllPress() {

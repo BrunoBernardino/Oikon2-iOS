@@ -3,6 +3,7 @@ import {
   View,
   ListView,
   StatusBar,
+  RefreshControl,
 } from 'react-native';
 import _ from 'lodash';
 
@@ -17,6 +18,7 @@ class ExpensesTab extends Component {
     super(props);
 
     this.state = {
+      refreshingData: false,
       showingEditModal: false,
       expenseBeingEdited: {
         _id: '',
@@ -57,6 +59,20 @@ class ExpensesTab extends Component {
 
   calculateTotal(expenses) {
     return _.sumBy(expenses, (e) => e.cost);
+  }
+
+  onRefresh() {
+    this.setState({
+      refreshingData: true,
+    });
+
+    this.props.onLoad();// TODO: This isn't async, so this is a "fake" load time
+
+    setTimeout(() => {
+      this.setState({
+        refreshingData: false,
+      });
+    }, 1200);
   }
 
   render() {
@@ -138,6 +154,13 @@ class ExpensesTab extends Component {
           style={styles.listContainer}
           automaticallyAdjustContentInsets={false}
           enableEmptySections={true}
+          refreshControl={
+            <RefreshControl
+              tintColor="#FFFFFF"
+              refreshing={this.state.refreshingData}
+              onRefresh={this.onRefresh.bind(this)}
+            />
+          }
         />
         <EditExpenseModal
           visible={this.state.showingEditModal}
@@ -169,6 +192,7 @@ ExpensesTab.propTypes = {
   onFiltersChange: React.PropTypes.func.isRequired,
   onEditExpense: React.PropTypes.func.isRequired,
   onDeleteExpense: React.PropTypes.func.isRequired,
+  onLoad: React.PropTypes.func.isRequired,
 };
 
 export default ExpensesTab;

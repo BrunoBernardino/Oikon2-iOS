@@ -14,7 +14,9 @@
 - [x] Automatically "reload" expense types stats when entering settings, at most once a week
 - [x] Fix small UI oddities (cut-off "g", etc.)
 - [x] Implement export functionality in settings
-- [ ] Implement import functionality in settings
+- [x] Implement import functionality in settings
+- [x] Implement refresh to reload expenses
+- [x] Implement refresh to sync expense types
 - [ ] Implement remoteDB + Sync (when pressing Done after editing the URL) functionality in settings
 
 # Tests:

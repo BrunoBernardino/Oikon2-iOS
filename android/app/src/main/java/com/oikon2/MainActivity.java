@@ -1,6 +1,7 @@
 package com.oikon2;
 
 import com.facebook.react.ReactActivity;
+import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
 import com.rnfs.RNFSPackage;
 import com.chirag.RNMail.RNMail;
 import com.cmcewen.blurview.BlurViewPackage;

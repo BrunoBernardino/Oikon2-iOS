@@ -352,12 +352,12 @@ const DataDB = {
         return false;
       }
 
-      let row = rows.pop();
+      let row = rows.shift();
 
       while (row) {
         row.type = 'uncategorized'; // auto-parsing will make it ''
         await this.update('expense', row);
-        row = rows.pop();
+        row = rows.shift();
       }
 
       return true;
