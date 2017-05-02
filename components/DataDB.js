@@ -38,16 +38,13 @@ const DataDB = {
 
     // Sync w/ Remote if any
     if (remoteHost) {
-      this.remoteExpensesDB = new PouchDB(`${remoteHost}/${EXPENSES_URI}`);
-      this.expensesDB.sync(this.remoteExpensesDB, {
+      const syncOptions = {
         live: true,
         retry: true,
-      });
-      this.remoteTypesDB = new PouchDB(`${remoteHost}/${TYPES_URI}`);
-      this.typesDB.sync(this.remoteTypesDB, {
-        live: true,
-        retry: true,
-      });
+      };
+
+      PouchDB.sync(EXPENSES_URI, `${remoteHost}/${EXPENSES_URI}`, syncOptions);
+      PouchDB.sync(TYPES_URI, `${remoteHost}/${TYPES_URI}`, syncOptions);
     }
   },
 
