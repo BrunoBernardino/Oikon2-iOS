@@ -17,7 +17,9 @@
 - [x] Implement import functionality in settings
 - [x] Implement refresh to reload expenses
 - [x] Implement refresh to sync expense types
-- [ ] Implement remoteDB + Sync (when pressing Done after editing the URL) functionality in settings
+- [ ] Implement expenses swipe to delete - https://www.npmjs.com/package/react-native-swipe-list-view or https://www.npmjs.com/package/react-native-swipeout
+- [ ] Implement types swipe to delete
+- [x] Implement remoteDB + Sync (when pressing Done after editing the URL) functionality in settings
 - [ ] Implement duplicate prevention for expense types
 
 # Tests:

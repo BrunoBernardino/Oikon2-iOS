@@ -14,7 +14,7 @@ const genericErrorHandler = (error) => {
 PouchDB.plugin(PouchDBFind);
 
 const DataDB = {
-  init() {
+  init(remoteHost) {
 
     this.expensesDB = new PouchDB(EXPENSES_URI);
     this.typesDB = new PouchDB(TYPES_URI);
@@ -36,12 +36,19 @@ const DataDB = {
       },
     });
 
-    // TODO: Sync w/ Remote if any
-    // this.remoteExpensesDB = new PouchDB(`http://localhost:5984/${EXPENSES_URI}`);
-    // this.expensesDB.sync(this.remoteExpensesDB, {
-    //   live: true,
-    //   retry: true
-    // });
+    // Sync w/ Remote if any
+    if (remoteHost) {
+      this.remoteExpensesDB = new PouchDB(`${remoteHost}/${EXPENSES_URI}`);
+      this.expensesDB.sync(this.remoteExpensesDB, {
+        live: true,
+        retry: true,
+      });
+      this.remoteTypesDB = new PouchDB(`${remoteHost}/${TYPES_URI}`);
+      this.typesDB.sync(this.remoteTypesDB, {
+        live: true,
+        retry: true,
+      });
+    }
   },
 
   chooseDB(type) {
@@ -76,14 +83,15 @@ const DataDB = {
       .find({
         selector: {
           name: expenseName,
-          date: {
-            '$gt': null, // $exists : true doesn't work
-          },
+          /*date: {
+            '$gt': null,
+            // '$exists': true,
+          },*/ // https://github.com/pouchdb/pouchdb/issues/6337
         },
         fields: ['type'],
-        sort: [{
+        /*sort: [{
           date: 'desc',
-        }],
+        }],*/
         limit: 1,
       })
       .then((result) => {

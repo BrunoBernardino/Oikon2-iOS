@@ -90,7 +90,7 @@ class Oikon2 extends Component {
 
   loadData() {
     // Initialize data
-    DataDB.init();
+    DataDB.init(this.state.remoteURL);
 
     // TODO: Remove Some test data
     // DataDB.add('type', {name: 'Car', cost: 0, count: 0});
