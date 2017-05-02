@@ -18,10 +18,11 @@
 - [x] Implement refresh to reload expenses
 - [x] Implement refresh to sync expense types
 - [ ] Implement remoteDB + Sync (when pressing Done after editing the URL) functionality in settings
+- [ ] Implement duplicate prevention for expense types
 
 # Tests:
 - [ ] Test adding duplicate expense types
-- [ ] Test adding expenses with unicode
+- [ ] Test adding expenses with unicode & emoji
 - [ ] Test name trimming expenses and expense types
 - [ ] Test negative values for expenses
 - [ ] Test CSV import/export with unicode (ç, ª, à, etc.)
