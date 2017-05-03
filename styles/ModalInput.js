@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     padding: 10,
     height: 40,
+    lineHeight: 30,
+    marginVertical: 0,
   },
   input: {
     flex: 0.7,
@@ -30,7 +32,8 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     padding: 10,
     height: 40,
-    lineHeight: 40,
+    lineHeight: 30,
+    marginVertical: 0,
   }
 });
 

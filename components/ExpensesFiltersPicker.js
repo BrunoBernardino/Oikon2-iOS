@@ -40,7 +40,7 @@ class ExpensesFiltersPicker extends Component {
 
     return (
       <Modal
-        animationType={"slide"}
+        animationType="slide"
         transparent={true}
         visible={visible}
         onRequestClose={onRequestClose}
@@ -76,11 +76,13 @@ class ExpensesFiltersPicker extends Component {
               </View>
               {types.map((type, index) => {
                 const rowStyle = (index % 2 === 1) ? styles.typeGroup : [styles.typeGroup, styles.oddTypeGroup];
+                const switchColor = (index % 2 === 1) ? undefined : '#FFFFFF';
                 return (
                   <View key={index} style={rowStyle}>
                     <Text style={styles.type}>{type}</Text>
                     <Switch
                       style={styles.typeSwitch}
+                      tintColor={switchColor}
                       onValueChange={this.toggleType.bind(this, type)}
                       value={this.isVisible(type)}
                     />
