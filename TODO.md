@@ -20,9 +20,8 @@
 - [x] Implement remoteDB + Sync functionality in settings
 - [x] Add "uncategorized" count in types list (don't allow touch or delete on it)
 - [x] Tweak UI position of labels in modal (editing expense)
-- [x] Implement expenses swipe to delete
-- [ ] Implement types swipe to delete
-- [ ] Implement duplicate prevention for expense types
+- [x] Implement duplicate prevention for expense types
+- [ ] Handle thrown errors nicely (duplicate type, no cost for expense, etc.)
 
 # Tests:
 - [ ] Test adding duplicate expense types
@@ -33,10 +32,11 @@
 - [ ] Test big CSV import/exports (100k rows)
 - [ ] Test bigger simulator screens
 
-# After app is working:
+# After app is working & tested:
 - [ ] Build simple website (with FAQ), showcase demo with Appetize.io
 - [ ] Suggest using [Cloudant](https://cloudant.com/sign-up/) for easy data sync
 
 # In the future:
 - [ ] macOS version, using http://electron.atom.io and/or http://nwjs.io and/or https://github.com/gabrielbull/react-desktop
 - [ ] Apple Watch app, ask for cost + name (force today, and use auto-categorization)
+- [ ] Implement expenses & types swipe to delete (tried react-native-swipeout and react-native-swipe-list-view)

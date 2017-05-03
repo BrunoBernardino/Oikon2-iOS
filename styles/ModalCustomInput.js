@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 40,
     lineHeight: 30,
-    marginVertical: 5,
+    marginVertical: 0,
   }
 });
 

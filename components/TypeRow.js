@@ -12,7 +12,7 @@ const locale = NativeModules.SettingsManager.settings.AppleLocale.replace('_', '
 
 class TypeRow extends Component {
   render() {
-    const {isOdd, name, count, cost, onTouch} = this.props;
+    const { isOdd, name, count, cost, onTouch/*, onDelete*/ } = this.props;
 
     const rowStyle = isOdd ? styles.container : styles.oddContainer;
 
@@ -45,6 +45,7 @@ TypeRow.propTypes = {
   count: React.PropTypes.number.isRequired,
   cost: React.PropTypes.number.isRequired,
   onTouch: React.PropTypes.func.isRequired,
+  onDelete: React.PropTypes.func.isRequired,
 };
 
 export default TypeRow;

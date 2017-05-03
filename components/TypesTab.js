@@ -40,6 +40,7 @@ class TypesTab extends Component {
         count={type.count}
         cost={type.cost}
         onTouch={this.showEditModal.bind(this, type)}
+        onDelete={this.props.onDeleteType.bind(this, type)}
       />
     );
   }

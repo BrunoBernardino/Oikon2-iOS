@@ -5,7 +5,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-import styles from '../styles/ModalInput';
+import styles from '../styles/ModalCustomInput';
 
 class ModalCustomInput extends Component {
   render() {

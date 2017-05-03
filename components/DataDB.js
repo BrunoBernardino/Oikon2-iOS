@@ -113,6 +113,14 @@ const DataDB = {
       await this.incrementStatsForType(data.type, data.cost);
     }
 
+    // If adding a type, confirm the name is unique
+    if (type === 'type' || type === 'types') {
+      const exists = await this.typeExists(data.name);
+      if (exists) {
+        throw Error(`An expense type named "${data.name}" already exists.`);
+      }
+    }
+
     return this.chooseDB(type)
       .post(data)
       .catch(genericErrorHandler);
@@ -317,7 +325,7 @@ const DataDB = {
   // Increment count and cost for a given expense type
   async incrementStatsForType(typeName, expenseCost, expenseCount = 1) {
     try {
-      const result = await this.expensesDB.find({
+      const result = await this.typesDB.find({
         selector: {
           name: typeName,
         },
@@ -366,6 +374,28 @@ const DataDB = {
       }
 
       return true;
+    } catch (e) {
+      return false;
+    }
+  },
+
+  // Check if an expense type exists, by a given name
+  async typeExists(typeName) {
+    try {
+      const result = await this.typesDB.find({
+        selector: {
+          name: typeName,
+        },
+        limit: 1,
+      });
+
+      const rows = result.docs;
+
+      if (rows.length > 0) {
+        return true;
+      }
+
+      return false;
     } catch (e) {
       return false;
     }

@@ -403,6 +403,11 @@ class Oikon2 extends Component {
   }
 
   onDeleteType(type) {
+    if (type && type.name === 'uncategorized') {
+      this.showErrorMessage('You can\'t delete "uncategorized".');
+      return false;
+    }
+
     try {
       DataDB.delete('type', type)
         .then(() => {

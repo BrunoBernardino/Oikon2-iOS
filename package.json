@@ -17,8 +17,7 @@
     "react-native-document-picker": "2.0.0",
     "react-native-fs": "2.3.2",
     "react-native-mail": "3.0.1",
-    "react-native-message-bar": "1.6.0",
-    "react-native-swipeout": "2.0.13"
+    "react-native-message-bar": "1.6.0"
   },
   "devDependencies": {
     "eslint": "3.19.0",
