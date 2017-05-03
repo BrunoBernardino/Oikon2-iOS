@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 import moment from 'moment';
+import Swipeout from 'react-native-swipeout';
 
 import styles from '../styles/ExpenseRow';
 
 class ExpenseRow extends Component {
   render() {
-    const {isOdd, name, cost, type, date, onTouch} = this.props;
+    const { isOdd, name, cost, type, date, onTouch, onDelete } = this.props;
 
     const rowStyle = isOdd ? styles.container : styles.oddContainer;
 
@@ -28,17 +29,34 @@ class ExpenseRow extends Component {
 
     const nameGroup = showType === '' ? singleLine : multiLine;
 
+    const deleteButton = [
+      {
+        text: 'Delete',
+        onPress: onDelete,
+        type: 'delete',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        underlayColor: 'rgba(255, 255, 255, 0.5)',
+        color: '#CC0000',
+      },
+    ];
+
     return (
-      <TouchableHighlight
-        onPress={onTouch}
-        underlayColor="rgba(255, 255, 255, 0.5)"
+      <Swipeout
+        right={deleteButton}
+        backgroundColor="transparent"
+        autoClose={true}
       >
-        <View style={rowStyle}>
-          {nameGroup}
-          <Text style={styles.date} numberOfLines={1}>{showDate}</Text>
-          <Text style={styles.cost} numberOfLines={1}>{cost}</Text>
-        </View>
-      </TouchableHighlight>
+        <TouchableHighlight
+          onPress={onTouch}
+          underlayColor="rgba(255, 255, 255, 0.5)"
+        >
+          <View style={rowStyle}>
+            {nameGroup}
+            <Text style={styles.date} numberOfLines={1}>{showDate}</Text>
+            <Text style={styles.cost} numberOfLines={1}>{cost}</Text>
+          </View>
+        </TouchableHighlight>
+      </Swipeout>
     );
   }
 }
@@ -49,7 +67,8 @@ ExpenseRow.propTypes = {
   cost: React.PropTypes.number.isRequired,
   type: React.PropTypes.string,
   date: React.PropTypes.string.isRequired,
-  onTouch: React.PropTypes.func.isRequired
+  onTouch: React.PropTypes.func.isRequired,
+  onDelete: React.PropTypes.func.isRequired,
 };
 
 export default ExpenseRow;

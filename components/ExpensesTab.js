@@ -40,6 +40,7 @@ class ExpensesTab extends Component {
         type={expense.type}
         date={expense.date}
         onTouch={this.showKeyboardModal.bind(this, expense)}
+        onDelete={this.props.onDeleteExpense.bind(this, expense)}
       />
     );
   }
