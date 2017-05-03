@@ -41,6 +41,7 @@ class SettingsTab extends Component {
     const {
       remoteURL,
       onRemoteURLChange,
+      onRemoteURLFinishEditing,
       onExportPress,
       onImportPress,
       onDeleteAllPress,
@@ -56,6 +57,7 @@ class SettingsTab extends Component {
           <BigInput
             placeholder="https://example.com"
             onChangeText={onRemoteURLChange}
+            onEndEditing={onRemoteURLFinishEditing}
             label="URL"
             value={remoteURL}
             returnKeyType="done"
@@ -63,6 +65,7 @@ class SettingsTab extends Component {
             smallerFont={true}
             autoCapitalize="none"
             autoCorrect={false}
+            secureTextEntry={true}
           />
           <Text style={styles.instructions}>
             URL for a Remote CouchDB server.{'\n'}No trailing slash.
@@ -114,6 +117,7 @@ SettingsTab.propTypes = {
   remoteURL: React.PropTypes.string.isRequired,
   lastStatsSync: React.PropTypes.string.isRequired,
   onRemoteURLChange: React.PropTypes.func.isRequired,
+  onRemoteURLFinishEditing: React.PropTypes.func.isRequired,
   onStatsSync: React.PropTypes.func.isRequired,
   onExportPress: React.PropTypes.func.isRequired,
   onImportPress: React.PropTypes.func.isRequired,

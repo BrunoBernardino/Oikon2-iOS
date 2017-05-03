@@ -45,6 +45,11 @@ class TypesTab extends Component {
   }
 
   showEditModal(type) {
+    // Don't allow editing uncategorized
+    if (type.name === 'uncategorized') {
+      return;
+    }
+
     this.setState({
       showingEditModal: true,
       typeBeingEdited: type
@@ -80,15 +85,25 @@ class TypesTab extends Component {
       this.setState({
         refreshingData: false,
       });
-    }, 1200);
+    }, 1000);
   }
 
   render() {
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => JSON.stringify(r1) !== JSON.stringify(r2)});
 
-    const listTypes = dataSource.cloneWithRows(this.props.types);
+    const { onAddType, onEditType, onDeleteType, uncategorizedCount, uncategorizedCost } = this.props;
 
-    const { onAddType, onEditType, onDeleteType } = this.props;
+    const typesToShow = JSON.parse(JSON.stringify(this.props.types));
+
+    // Add "uncategorized" to the top
+    typesToShow.unshift({
+      id: 0,
+      name: 'uncategorized',
+      count: uncategorizedCount,
+      cost: uncategorizedCost,
+    });
+
+    const listTypes = dataSource.cloneWithRows(typesToShow);
 
     return (
       <View style={styles.container}>
@@ -139,6 +154,8 @@ TypesTab.propTypes = {
     count: React.PropTypes.number.isRequired,
     cost: React.PropTypes.number.isRequired
   })).isRequired,
+  uncategorizedCount: React.PropTypes.number.isRequired,
+  uncategorizedCost: React.PropTypes.number.isRequired,
   onAddType: React.PropTypes.func.isRequired,
   onEditType: React.PropTypes.func.isRequired,
   onDeleteType: React.PropTypes.func.isRequired,

@@ -18,7 +18,7 @@
 - [x] Implement refresh to reload expenses
 - [x] Implement refresh to sync expense types
 - [x] Implement remoteDB + Sync functionality in settings
-- [ ] Add "uncategorized" count in types list (don't allow touch or delete on it)
+- [x] Add "uncategorized" count in types list (don't allow touch or delete on it)
 - [ ] Tweak UI position of labels in modal (editing expense)
 - [ ] Implement expenses swipe to delete - https://www.npmjs.com/package/react-native-swipe-list-view or https://www.npmjs.com/package/react-native-swipeout
 - [ ] Implement types swipe to delete

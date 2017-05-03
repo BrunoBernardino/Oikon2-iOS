@@ -29,8 +29,10 @@ class BigInput extends Component {
       smallerFont,
       autoCapitalize,
       autoCorrect,
+      secureTextEntry,
       onSubmitEditing,
-      onFocus
+      onFocus,
+      onEndEditing,
     } = this.props;
 
     const inputStyle = smallerFont ? styles.smallInput : styles.input;
@@ -54,8 +56,10 @@ class BigInput extends Component {
           allowFontScaling={true}
           autoCapitalize={autoCapitalize}
           autoCorrect={autoCorrect}
+          secureTextEntry={secureTextEntry}
           onSubmitEditing={onSubmitEditing}
           onFocus={onFocus}
+          onEndEditing={onEndEditing}
         />
       </View>
     );
@@ -72,8 +76,10 @@ BigInput.propTypes = {
   smallerFont: React.PropTypes.bool,
   autoCapitalize: React.PropTypes.oneOf([ 'none', 'sentences', 'words', 'characters', ]),
   autoCorrect: React.PropTypes.bool,
+  secureTextEntry: React.PropTypes.bool,
   onSubmitEditing: React.PropTypes.func,
-  onFocus: React.PropTypes.func
+  onFocus: React.PropTypes.func,
+  onEndEditing: React.PropTypes.func,
 };
 
 BigInput.defaultProps = {

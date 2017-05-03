@@ -92,12 +92,6 @@ class Oikon2 extends Component {
     // Initialize data
     DataDB.init(this.state.remoteURL);
 
-    // TODO: Remove Some test data
-    // DataDB.add('type', {name: 'Car', cost: 0, count: 0});
-    // DataDB.add('type', {name: 'Food', cost: 15.32, count: 2});
-    // DataDB.add('expense', {name: 'Lunch', cost: 10, type: 'Food', date: '2017-04-27'});
-    // DataDB.add('expense', {name: 'Dinner', cost: 5.32, type: 'Food', date: ''});
-
     DataDB.get('expenses', (expenses) => {
       // Update state with fetched data
       this.setState({
@@ -151,9 +145,22 @@ class Oikon2 extends Component {
     }
 
     if (tab === 'typesTab') {
+      // Uncategorized stats
+      let uncategorizedCount = 0;
+      let uncategorizedCost = 0;
+
+      this.state.expenses.forEach((expense) => {
+        if (expense.type === '') {
+          uncategorizedCount += 1;
+          uncategorizedCost += expense.cost;
+        }
+      });
+
       return (
         <TypesTab
           types={this.state.types}
+          uncategorizedCount={uncategorizedCount}
+          uncategorizedCost={uncategorizedCost}
           onAddType={this.onAddType.bind(this)}
           onEditType={this.onEditType.bind(this)}
           onDeleteType={this.onDeleteType.bind(this)}
@@ -168,6 +175,7 @@ class Oikon2 extends Component {
           remoteURL={this.state.remoteURL}
           lastStatsSync={this.state.lastStatsSync}
           onRemoteURLChange={this.onRemoteURLChange.bind(this)}
+          onRemoteURLFinishEditing={this.onRemoteURLFinishEditing.bind(this)}
           onStatsSync={this.onStatsSync.bind(this)}
           onExportPress={this.onExportPress.bind(this)}
           onImportPress={this.onImportPress.bind(this)}
@@ -419,12 +427,15 @@ class Oikon2 extends Component {
   //
   onRemoteURLChange(newURL) {
     SettingsDB.set('remoteURL', newURL);
-    // TODO: Re-initialize/sync data
-    // SettingsDB.init();
 
     this.setState({
       remoteURL: newURL
     });
+  }
+
+  onRemoteURLFinishEditing() {
+    // Re-initialize/sync data
+    this.loadData();
   }
 
   async onStatsSync() {
