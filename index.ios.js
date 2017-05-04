@@ -288,41 +288,31 @@ class Oikon2 extends Component {
   // Add Actions
   //
   onAddExpense(expense) {
-    try {
-      DataDB.add('expense', expense)
-        .then(() => {
-          this.showSuccessMessage('Expense added successfully.');
+    DataDB.add('expense', expense)
+      .then(() => {
+        this.showSuccessMessage('Expense added successfully.');
 
-          this.loadData();
-        })
-        .catch((e) => {
-          throw e;
-        });
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error adding your expense:\n${error}`);
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return false;
-    }
+    return true;
   }
 
   onAddType(type) {
-    try {
-      DataDB.add('type', type)
-        .then(() => {
-          this.showSuccessMessage('Expense type added successfully.');
+    DataDB.add('type', type)
+      .then(() => {
+        this.showSuccessMessage('Expense type added successfully.');
 
-          this.loadData();
-        })
-        .catch((e) => {
-          throw e;
-        });
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error adding your expense type:\n${error}`);
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return false;
-    }
+    return true;
   }
 
   //
@@ -340,66 +330,48 @@ class Oikon2 extends Component {
   }
 
   onEditExpense(expense) {
-    try {
-      DataDB.update('expense', expense)
-        .then(() => {
-          this.showSuccessMessage('Expense updated successfully.');
+    DataDB.update('expense', expense)
+      .then(() => {
+        this.showSuccessMessage('Expense updated successfully.');
 
-          this.loadData();
-        })
-        .catch((e) => {
-          throw e;
-        });
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error updating your expense:\n${error}`);
-
-      return false;
-    }
+    return true;
   }
 
   onDeleteExpense(expense) {
-    try {
-      DataDB.delete('expense', expense)
-        .then(() => {
-          this.showSuccessMessage('Expense deleted successfully.');
+    DataDB.delete('expense', expense)
+      .then(() => {
+        this.showSuccessMessage('Expense deleted successfully.');
 
-          this.loadData();
-        })
-        .catch((e) => {
-          throw e;
-        });
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error deleting your expense:\n${error}`);
-
-      return false;
-    }
+    return true;
   }
 
   //
   // Expense Types Actions
   //
   onEditType(type) {
-    try {
-      DataDB.update('type', type)
-        .then(() => {
-          this.showSuccessMessage('Expense type updated successfully.');
+    DataDB.update('type', type)
+      .then(() => {
+        this.showSuccessMessage('Expense type updated successfully.');
 
-          this.loadData();
-        })
-        .catch((e) => {
-          throw e;
-        });
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error updating your expense type:\n${error}`);
-
-      return false;
-    }
+    return true;
   }
 
   onDeleteType(type) {
@@ -408,23 +380,17 @@ class Oikon2 extends Component {
       return false;
     }
 
-    try {
-      DataDB.delete('type', type)
-        .then(() => {
-          this.showSuccessMessage('Expense type deleted successfully.');
+    DataDB.delete('type', type)
+      .then(() => {
+        this.showSuccessMessage('Expense type deleted successfully.');
 
-          this.loadData();
-        })
-        .catch((e) => {
-          throw e;
-        });
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error deleting your expense type:\n${error}`);
-
-      return false;
-    }
+    return true;
   }
 
   //
@@ -604,23 +570,17 @@ class Oikon2 extends Component {
   }
 
   onDeleteAllConfirm() {
-    try {
-      DataDB.deleteDB()
-        .then(() => {
-          this.showSuccessMessage('Data deleted successfully.');
+    DataDB.deleteDB()
+      .then(() => {
+        this.showSuccessMessage('Data deleted successfully.');
 
-          this.loadData();
-        })
-        .catch((e) => {
-          throw e;
-        });
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error deleting your data:\n${error}`);
-
-      return false;
-    }
+    return true;
   }
 }
 

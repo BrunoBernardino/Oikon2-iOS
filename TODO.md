@@ -21,16 +21,18 @@
 - [x] Add "uncategorized" count in types list (don't allow touch or delete on it)
 - [x] Tweak UI position of labels in modal (editing expense)
 - [x] Implement duplicate prevention for expense types
-- [ ] Handle thrown errors nicely (duplicate type, no cost for expense, etc.)
+- [x] Handle thrown errors nicely (duplicate type, no cost for expense, etc.)
+- [ ] Implement "responsive" stylesheets (load different font sizes, etc.)
 
 # Tests:
-- [ ] Test adding duplicate expense types
-- [ ] Test adding expenses with unicode & emoji
-- [ ] Test name trimming expenses and expense types
-- [ ] Test negative values for expenses
+- [x] Test adding duplicate expense types
+- [x] Test adding expenses with unicode & emoji
+- [x] Test name trimming expenses and expense types
+- [x] Test negative values for expenses
 - [ ] Test CSV import/export with unicode (ç, ª, à, etc.)
 - [ ] Test big CSV import/exports (100k rows)
-- [ ] Test bigger simulator screens
+- [x] Test bigger simulator screens
+- [ ] Test smaller simulator screens
 
 # After app is working & tested:
 - [ ] Build simple website (with FAQ), showcase demo with Appetize.io

@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   dateImage: {
     marginTop: 2,
-    marginLeft: 10
+    marginLeft: 10,
   },
   dateLabel: {
     fontFamily: 'HelveticaNeue',
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'rgba(255, 255, 255, 0.5)',
     textAlign: 'left',
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   date: {
     fontFamily: 'HelveticaNeue',
