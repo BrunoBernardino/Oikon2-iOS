@@ -23,12 +23,14 @@ class ModalDatePicker extends Component {
     } = this.props;
 
     const simpleHeader = (
-      <TouchableHighlight
-        onPress={onRequestClose}
-        underlayColor="rgba(255, 255, 255, 0.5)"
-      >
-        <Text style={styles.closeText}>Close</Text>
-      </TouchableHighlight>
+      <View style={styles.headerSingle}>
+        <TouchableHighlight
+          onPress={onRequestClose}
+          underlayColor="rgba(255, 255, 255, 0.5)"
+        >
+          <Text style={styles.closeText}>Close</Text>
+        </TouchableHighlight>
+      </View>
     );
 
     const completeHeader = (
@@ -58,24 +60,25 @@ class ModalDatePicker extends Component {
 
     return (
       <Modal
-        animationType={"slide"}
+        animationType="slide"
         transparent={true}
         visible={visible}
         onRequestClose={onRequestClose}
         >
-       <BlurView blurType="light" style={styles.container}>
-        <View style={styles.pane}>
-          {finalHeader}
+        <BlurView blurType="light" style={styles.container}>
+          <View style={styles.emptySpace}></View>
+          <View style={styles.pane}>
+            {finalHeader}
 
-          <DatePickerIOS
-            style={styles.picker}
-            date={date}
-            mode="date"
-            timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
-            onDateChange={onDateChange}
-          />
-        </View>
-       </BlurView>
+            <DatePickerIOS
+              style={styles.picker}
+              date={date}
+              mode="date"
+              timeZoneOffsetInMinutes={timeZoneOffsetInMinutes}
+              onDateChange={onDateChange}
+            />
+          </View>
+        </BlurView>
       </Modal>
     );
   }

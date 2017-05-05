@@ -24,48 +24,49 @@ class TypePicker extends Component {
 
     return (
       <Modal
-        animationType={"slide"}
+        animationType="slide"
         transparent={true}
         visible={visible}
         onRequestClose={onRequestClose}
         >
-       <BlurView blurType="light" style={styles.container}>
-        <View style={styles.pane}>
-          <View style={styles.headerGroup}>
-            <TouchableHighlight
-              onPress={onRequestClose}
-              underlayColor="rgba(255, 255, 255, 0.5)"
-            >
-              <Text style={styles.cancelText}>Cancel</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              onPress={onSavePress}
-              underlayColor="rgba(255, 255, 255, 0.5)"
-            >
-              <Text style={styles.saveText}>Save</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              onPress={onNextPress}
-              underlayColor="rgba(255, 255, 255, 0.5)"
-            >
-              <Text style={styles.nextText}>Next</Text>
-            </TouchableHighlight>
-          </View>
+        <BlurView blurType="light" style={styles.container}>
+          <View style={styles.emptySpace}></View>
+          <View style={styles.pane}>
+            <View style={styles.headerGroup}>
+              <TouchableHighlight
+                onPress={onRequestClose}
+                underlayColor="rgba(255, 255, 255, 0.5)"
+              >
+                <Text style={styles.cancelText}>Cancel</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                onPress={onSavePress}
+                underlayColor="rgba(255, 255, 255, 0.5)"
+              >
+                <Text style={styles.saveText}>Save</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                onPress={onNextPress}
+                underlayColor="rgba(255, 255, 255, 0.5)"
+              >
+                <Text style={styles.nextText}>Next</Text>
+              </TouchableHighlight>
+            </View>
 
-          <Picker
-            style={styles.picker}
-            selectedValue={type}
-            mode="dropdown"
-            onValueChange={onTypeChange}
-          >
-            <Picker.Item label="(auto)" value="" />
-            <Picker.Item label="uncategorized" value="uncategorized" />
-            {types.map((theType, index) => {
-              return <Picker.Item key={index} label={theType} value={theType} />;
-            })}
-          </Picker>
-        </View>
-       </BlurView>
+            <Picker
+              style={styles.picker}
+              selectedValue={type}
+              mode="dropdown"
+              onValueChange={onTypeChange}
+            >
+              <Picker.Item label="(auto)" value="" />
+              <Picker.Item label="uncategorized" value="uncategorized" />
+              {types.map((theType, index) => {
+                return <Picker.Item key={index} label={theType} value={theType} />;
+              })}
+            </Picker>
+          </View>
+        </BlurView>
       </Modal>
     );
   }

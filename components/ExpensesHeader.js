@@ -105,7 +105,7 @@ class ExpensesHeader extends Component {
             onPress={this.onStartDatePress.bind(this)}
             underlayColor="rgba(255, 255, 255, 0.3)"
           >
-            <View>
+            <View style={{flex: 1}}>
               <View style={styles.dateLabelGroup}>
                 <Image style={styles.dateImage} source={ require('../assets/calendar.png') } />
                 <Text style={styles.dateLabel}>From</Text>
@@ -122,7 +122,7 @@ class ExpensesHeader extends Component {
             onPress={this.onEndDatePress.bind(this)}
             underlayColor="rgba(255, 255, 255, 0.3)"
           >
-            <View>
+            <View style={{flex: 1}}>
               <View style={styles.dateLabelGroup}>
                 <Image style={styles.dateImage} source={ require('../assets/calendar.png') } />
                 <Text style={styles.dateLabel}>To</Text>

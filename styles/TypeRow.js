@@ -26,10 +26,14 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'HelveticaNeue',
     fontWeight: '300',
+    lineHeight: 30,
     fontSize: 30,
     color: 'white',
     textAlign: 'left',
-    paddingLeft: 10
+    paddingLeft: 10,
+    /* This fixes things like a "g" being cut-off vertically */
+    paddingTop: -5,
+    marginTop: 5,
   },
   count: {
     flex: 1,
@@ -39,12 +43,12 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'left',
     paddingLeft: 10,
-    marginBottom: -5
+    marginBottom: -5,
   },
   cost: {
     flex: 0.5,
     fontFamily: 'HelveticaNeue',
-    lineHeight: 45,
+    lineHeight: 65,
     fontWeight: '300',
     fontSize: 26,
     color: 'white',

@@ -132,7 +132,7 @@ class AddTab extends Component {
       cost: this.state.cost,
       name: this.state.name,
       type: this.state.type,
-      date: this.state.date
+      date: this.state.date,
     });
 
     if (success) {
@@ -140,7 +140,7 @@ class AddTab extends Component {
         cost: '',
         name: '',
         type: '',
-        date: ''
+        date: '',
       });
     }
 

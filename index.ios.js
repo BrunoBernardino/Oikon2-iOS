@@ -4,10 +4,13 @@ import {
   TabBarIOS,
   StatusBar,
   Text,
-  View
+  View,
+  Alert,
+  NativeModules,
 } from 'react-native';
 import moment from 'moment';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import FileSystem from 'react-native-fs';
 
 import SettingsDB from './components/SettingsDB';
 import DataDB from './components/DataDB';
@@ -19,6 +22,9 @@ import TypesTab from './components/TypesTab';
 import SettingsTab from './components/SettingsTab';
 
 import styles from './styles/index.ios.js';
+
+const Mailer = NativeModules.RNMail;
+const DocumentPicker = NativeModules.RNDocumentPicker;
 
 class Oikon2 extends Component {
   constructor(props) {
@@ -38,6 +44,7 @@ class Oikon2 extends Component {
         search: ''
       },
       remoteURL: '',
+      lastStatsSync: '',
 
       // Data
       expenses: [],
@@ -60,9 +67,10 @@ class Oikon2 extends Component {
         // Update state with fetched settings
         const startDateFilter = SettingsDB.get('filters-startDate', moment().startOf('month').format('YYYY-MM-DD'));
         const endDateFilter = SettingsDB.get('filters-endDate', moment().endOf('month').format('YYYY-MM-DD'));
-        const visibleTypesFilter = SettingsDB.get('filters-visibleTypes', [], true);
+        const visibleTypesFilter = SettingsDB.get('filters-visibleTypes', '', true);
         const searchFilter = SettingsDB.get('filters-search', '');
         const remoteURL = SettingsDB.get('remoteURL', '');
+        const lastStatsSync = SettingsDB.get('last-stats-sync', '');
 
         this.setState({
           loadedSettings: true,
@@ -72,7 +80,8 @@ class Oikon2 extends Component {
             visibleTypes: visibleTypesFilter,
             search: searchFilter,
           },
-          remoteURL: remoteURL
+          remoteURL,
+          lastStatsSync,
         });
       });
 
@@ -81,13 +90,13 @@ class Oikon2 extends Component {
 
   loadData() {
     // Initialize data
-    DataDB.init();
+    DataDB.init(this.state.remoteURL);
 
     DataDB.get('expenses', (expenses) => {
       // Update state with fetched data
       this.setState({
         loadedData: true,
-        expenses: expenses
+        expenses: expenses,
       });
     });
 
@@ -96,15 +105,21 @@ class Oikon2 extends Component {
       // Update state with fetched data
       this.setState({
         loadedData: true,
-        types: types
+        types: types,
       });
     });
   }
 
+  onExpensesLoad() {
+    this.loadData();
+  }
+
+  onTypesLoad() {
+    this.onStatsSync();
+  }
+
   renderTabContent(tab) {
-    const simpleTypes = this.state.types.map((type) => {
-      return type.name;
-    });
+    const simpleTypes = this.state.types.map((type) => type.name);
 
     if (tab === 'addTab') {
       return (
@@ -124,14 +139,32 @@ class Oikon2 extends Component {
           onFiltersChange={this.onFiltersChange.bind(this)}
           onEditExpense={this.onEditExpense.bind(this)}
           onDeleteExpense={this.onDeleteExpense.bind(this)}
+          onLoad={this.onExpensesLoad.bind(this)}
         />
       );
     }
 
     if (tab === 'typesTab') {
+      // Uncategorized stats
+      let uncategorizedCount = 0;
+      let uncategorizedCost = 0;
+
+      this.state.expenses.forEach((expense) => {
+        if (expense.type === '') {
+          uncategorizedCount += 1;
+          uncategorizedCost += expense.cost;
+        }
+      });
+
       return (
         <TypesTab
           types={this.state.types}
+          uncategorizedCount={uncategorizedCount}
+          uncategorizedCost={uncategorizedCost}
+          onAddType={this.onAddType.bind(this)}
+          onEditType={this.onEditType.bind(this)}
+          onDeleteType={this.onDeleteType.bind(this)}
+          onLoad={this.onTypesLoad.bind(this)}
         />
       );
     }
@@ -140,7 +173,10 @@ class Oikon2 extends Component {
       return (
         <SettingsTab
           remoteURL={this.state.remoteURL}
+          lastStatsSync={this.state.lastStatsSync}
           onRemoteURLChange={this.onRemoteURLChange.bind(this)}
+          onRemoteURLFinishEditing={this.onRemoteURLFinishEditing.bind(this)}
+          onStatsSync={this.onStatsSync.bind(this)}
           onExportPress={this.onExportPress.bind(this)}
           onImportPress={this.onImportPress.bind(this)}
           onDeleteAllPress={this.onDeleteAllPress.bind(this)}
@@ -252,18 +288,31 @@ class Oikon2 extends Component {
   // Add Actions
   //
   onAddExpense(expense) {
-    try {
-      DataDB.add('expense', expense);
-      this.showSuccessMessage('Expense added successfully.');
+    DataDB.add('expense', expense)
+      .then(() => {
+        this.showSuccessMessage('Expense added successfully.');
 
-      this.loadData();
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error adding your expense:\n${error}`);
+    return true;
+  }
 
-      return false;
-    }
+  onAddType(type) {
+    DataDB.add('type', type)
+      .then(() => {
+        this.showSuccessMessage('Expense type added successfully.');
+
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
+
+    return true;
   }
 
   //
@@ -281,33 +330,67 @@ class Oikon2 extends Component {
   }
 
   onEditExpense(expense) {
-    try {
-      DataDB.update('expense', expense);
-      this.showSuccessMessage('Expense updated successfully.');
+    DataDB.update('expense', expense)
+      .then(() => {
+        this.showSuccessMessage('Expense updated successfully.');
 
-      this.loadData();
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error updating your expense:\n${error}`);
-
-      return false;
-    }
+    return true;
   }
 
   onDeleteExpense(expense) {
-    try {
-      DataDB.delete('expense', expense);
-      this.showSuccessMessage('Expense deleted successfully.');
+    DataDB.delete('expense', expense)
+      .then(() => {
+        this.showSuccessMessage('Expense deleted successfully.');
 
-      this.loadData();
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
 
-      return true;
-    } catch (error) {
-      this.showErrorMessage(`There was an error deleting your expense:\n${error}`);
+    return true;
+  }
 
+  //
+  // Expense Types Actions
+  //
+  onEditType(type) {
+    DataDB.update('type', type)
+      .then(() => {
+        this.showSuccessMessage('Expense type updated successfully.');
+
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
+
+    return true;
+  }
+
+  onDeleteType(type) {
+    if (type && type.name === 'uncategorized') {
+      this.showErrorMessage('You can\'t delete "uncategorized".');
       return false;
     }
+
+    DataDB.delete('type', type)
+      .then(() => {
+        this.showSuccessMessage('Expense type deleted successfully.');
+
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
+
+    return true;
   }
 
   //
@@ -315,24 +398,189 @@ class Oikon2 extends Component {
   //
   onRemoteURLChange(newURL) {
     SettingsDB.set('remoteURL', newURL);
-    // TODO: Re-initialize/sync data
-    // SettingsDB.init();
 
     this.setState({
       remoteURL: newURL
     });
   }
 
+  onRemoteURLFinishEditing() {
+    // Re-initialize/sync data
+    this.loadData();
+  }
+
+  async onStatsSync() {
+    const now = moment().format('YYYY-MM-DD');
+    SettingsDB.set('last-stats-sync', now);
+
+    this.setState({
+      lastStatsSync: now
+    });
+
+    // It's cool this is non-blocking, it's not critical
+    try {
+      const types = JSON.parse(JSON.stringify(this.state.types));
+
+      let type = types.shift();
+      while (type) {
+        const stats = await DataDB.getStatsForType(type.name);
+
+        type.count = stats.count;
+        type.cost = stats.cost;
+
+        await DataDB.update('type', type);
+
+        type = types.shift();
+      }
+
+      this.loadData();
+    } catch (e) {
+      // Ignore
+    }
+  }
+
+  prepareValueForCSV(value) {
+    return value.replace(',', ';')
+      .replace('\n', ' ')
+      .replace('"', '\'');
+  }
+
+  getCSVContents() {
+    // Compatible with Oikon 1
+    const lines = [
+      'Name,Type,Date,Value',
+    ];
+
+    this.state.expenses.forEach((expense) => {
+      const expenseName = this.prepareValueForCSV(expense.name);
+      const expenseType = this.prepareValueForCSV(expense.type || 'uncategorized');
+      const expenseDate = this.prepareValueForCSV(expense.date);
+      const expenseValue = this.prepareValueForCSV(expense.cost.toFixed(2));
+
+      lines.push(`${expenseName},${expenseType},${expenseDate},${expenseValue}`);
+    });
+
+    return lines.join('\n');
+  }
+
   onExportPress() {
-    // TODO: Create CSV file and send email
+    // Create CSV file
+    const now = moment().format('x');
+    const path = `${FileSystem.DocumentDirectoryPath}/${now}.csv`;
+    const csvContents = this.getCSVContents();
+
+    FileSystem.writeFile(path, csvContents, 'utf8')
+      .then(() => {
+        // Open mail handler
+        Mailer.mail({
+          subject: 'Oikon CSV Export',
+          body: 'Enjoy this CSV file with my expense data.',
+          attachment: {
+            path: path,
+            type: 'csv',
+            name: `oikon-export-${now}.csv`,
+          },
+        }, (error) => {
+          if (error) {
+            this.showErrorMessage('Could not open Mail. Make sure you have Mail installed with an account setup.');
+          } else {
+            // Delete file now that we don't need it
+            FileSystem.unlink(path);
+          }
+        });
+      })
+      .catch((/* err */) => {
+        // Ignore
+      });
+  }
+
+  async parseDataFromCSV(contents) {
+    const lines = contents.split('\n');
+
+    if (lines.length < 1 || lines[0] !== 'Name,Type,Date,Value') {
+      return Promise.reject('Invalid format');
+    }
+
+    lines.shift();// Remove the first line
+    let line = lines.shift();
+
+    while (line) {
+      const values = line.split(',');
+
+      const expense = {
+        name: values[0],
+        type: values[1],
+        date: values[2],
+        cost: parseFloat(values[3]),
+      };
+
+      await DataDB.add('expense', expense);
+
+      // Try to add the expense type, but don't worry about failures
+      try {
+        const type = {
+          name: expense.type,
+        };
+
+        await DataDB.add('type', type);
+      } catch (e) {
+        // Ignore
+      }
+
+      line = lines.shift();
+    }
+
+    return Promise.resolve(true);
   }
 
   onImportPress() {
-    // TODO: Ask to select a CSV file, and import
+    // Ask to select a CSV file, and parse it
+    DocumentPicker.show({
+      filetype: ['public.plain-text'],
+    }, (error, file) => {
+      if (!error) {
+        FileSystem.readFile(file.uri, 'utf8')
+          .then((contents) => this.parseDataFromCSV(contents))
+          .then(() => this.onStatsSync())// This will trigger a reload of data as well
+          .then(() => this.showSuccessMessage('Expenses and expense types imported successfully!'))
+          .catch(() => this.showErrorMessage('Could not parse the file. Please make sure it\'s an Oikon-compatible CSV file.'));
+      } else {
+        this.showErrorMessage('Could not read the file. Please make sure it\'s a CSV file.');
+      }
+    });
   }
 
   onDeleteAllPress() {
-    // TODO: Ask for confirmation, and delete all data locally and remotely, if necessary
+    Alert.alert(
+      'Are you sure?',
+      'Are you sure you want to delete all data?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel'
+        },
+        {
+          text: 'Confirm',
+          onPress: () => this.onDeleteAllConfirm(),
+          style: 'destructive'
+        },
+      ]
+    );
+  }
+
+  onDeleteAllConfirm() {
+    DataDB.deleteDB()
+      .then(() => {
+        this.showSuccessMessage('Data deleted successfully.');
+
+        this.loadData();
+      })
+      .catch((error) => {
+        this.showErrorMessage(`${error}`);
+      });
+
+    return true;
   }
 }
 

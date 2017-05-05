@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
   },
   typeSwitch: {
     marginRight: 10,
-    marginTop: 7
-  }
+    marginTop: 7,
+  },
 });
 
 export default styles;

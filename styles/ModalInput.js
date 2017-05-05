@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: 'transparent',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   oddContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.1)'
@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'left',
     padding: 10,
+    height: 40,
+    lineHeight: 30,
+    marginVertical: 0,
   },
   input: {
     flex: 0.7,
@@ -28,6 +31,9 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'right',
     padding: 10,
+    height: 40,
+    lineHeight: 30,
+    marginVertical: 5,
   }
 });
 

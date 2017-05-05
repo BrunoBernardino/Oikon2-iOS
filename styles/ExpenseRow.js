@@ -20,12 +20,11 @@ const styles = StyleSheet.create({
   nameGroup: {
     flex: 0.5,
     flexDirection: 'column',
-    marginTop: 5,
   },
   singleName: {
     flex: 0.5,
     fontFamily: 'HelveticaNeue',
-    lineHeight: 46,
+    lineHeight: 65,
     fontWeight: '300',
     fontSize: 30,
     color: 'white',
@@ -35,11 +34,15 @@ const styles = StyleSheet.create({
   name: {
     flex: 1,
     fontFamily: 'HelveticaNeue',
+    lineHeight: 30,
     fontWeight: '300',
     fontSize: 30,
     color: 'white',
     textAlign: 'left',
     paddingLeft: 10,
+    /* This fixes things like a "g" being cut-off vertically */
+    paddingTop: -5,
+    marginTop: 10,
   },
   type: {
     flex: 1,
@@ -49,12 +52,12 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'left',
     paddingLeft: 10,
-    marginBottom: -5
+    marginBottom: -5,
   },
   date: {
     flex: 0.2,
     fontFamily: 'HelveticaNeue',
-    lineHeight: 40,
+    lineHeight: 65,
     fontWeight: '300',
     fontSize: 15,
     color: 'white',
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
   cost: {
     flex: 0.3,
     fontFamily: 'HelveticaNeue',
-    lineHeight: 45,
+    lineHeight: 65,
     fontWeight: '300',
     fontSize: 26,
     color: 'white',

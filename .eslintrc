@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 7,
+    "ecmaVersion": 8,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
@@ -91,6 +91,7 @@
   "globals": {
     "escape": true,
     "unescape": true,
+    "Promise": true,
   },
   "plugins": [
     "react",

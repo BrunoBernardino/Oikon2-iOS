@@ -6,7 +6,7 @@ import styles from '../styles/ExpenseRow';
 
 class ExpenseRow extends Component {
   render() {
-    const {isOdd, name, cost, type, date, onTouch} = this.props;
+    const { isOdd, name, cost, type, date, onTouch/*, onDelete*/ } = this.props;
 
     const rowStyle = isOdd ? styles.container : styles.oddContainer;
 
@@ -49,7 +49,8 @@ ExpenseRow.propTypes = {
   cost: React.PropTypes.number.isRequired,
   type: React.PropTypes.string,
   date: React.PropTypes.string.isRequired,
-  onTouch: React.PropTypes.func.isRequired
+  onTouch: React.PropTypes.func.isRequired,
+  onDelete: React.PropTypes.func.isRequired,
 };
 
 export default ExpenseRow;
