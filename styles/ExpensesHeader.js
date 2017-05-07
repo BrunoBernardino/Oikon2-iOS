@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const window = Dimensions.get('window');
+const smaller = (window.width <= 320);
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +33,7 @@ const styles = StyleSheet.create({
   dateLabel: {
     fontFamily: 'HelveticaNeue',
     fontWeight: '200',
-    fontSize: 18,
+    fontSize: smaller ? 14 : 18,
     color: 'rgba(255, 255, 255, 0.5)',
     textAlign: 'left',
     paddingLeft: 5,
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
   date: {
     fontFamily: 'HelveticaNeue',
     fontWeight: '300',
-    fontSize: 20,
+    fontSize: smaller ? 16 : 20,
     color: 'white',
     textAlign: 'left',
     marginLeft: 10,
@@ -51,14 +54,14 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontFamily: 'HelveticaNeue',
     fontWeight: '200',
-    fontSize: 18,
+    fontSize: smaller ? 14 : 18,
     color: 'rgba(255, 255, 255, 0.5)',
     textAlign: 'center'
   },
   total: {
     fontFamily: 'HelveticaNeue',
     fontWeight: '300',
-    fontSize: 22,
+    fontSize: smaller ? 20 : 22,
     color: 'white',
     textAlign: 'center',
     marginTop: 5
@@ -102,7 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'HelveticaNeue',
     fontWeight: '200',
-    fontSize: 16,
+    fontSize: smaller ? 13 : 16,
     color: 'white',
     textAlign: 'left',
     paddingLeft: 5,
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
   filtersText: {
     fontFamily: 'HelveticaNeue',
     fontWeight: '200',
-    fontSize: 16,
+    fontSize: smaller ? 13 : 16,
     color: 'rgba(255, 255, 255, 0.5)',
     textAlign: 'center',
     marginLeft: 5
