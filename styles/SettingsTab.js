@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const window = Dimensions.get('window');
+const smaller = (window.width <= 320);
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +14,7 @@ const styles = StyleSheet.create({
   scrollViewContent: {
   },
   logoContainer: {
-    marginTop: 60,
+    marginTop: smaller ? 50 : 60,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -41,7 +44,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: 'HelveticaNeue',
     fontWeight: '300',
-    fontSize: 20,
+    fontSize: smaller ? 16 : 20,
     color: 'white',
     textAlign: 'center',
   },
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     fontFamily: 'HelveticaNeue',
     fontWeight: '300',
-    fontSize: 20,
+    fontSize: smaller ? 16 : 20,
     color: '#CC0000',
     textAlign: 'center',
   }

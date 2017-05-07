@@ -1,9 +1,12 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const window = Dimensions.get('window');
+const smaller = (window.width <= 320);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 65,
+    height: smaller ? 50 : 65,
     backgroundColor: 'transparent',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -11,7 +14,7 @@ const styles = StyleSheet.create({
   },
   oddContainer: {
     flex: 1,
-    height: 65,
+    height: smaller ? 50 : 65,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     flexDirection: 'row',
@@ -26,31 +29,31 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: 'HelveticaNeue',
     fontWeight: '300',
-    lineHeight: 30,
-    fontSize: 30,
+    lineHeight: smaller ? 26 : 30,
+    fontSize: smaller ? 26 : 30,
     color: 'white',
     textAlign: 'left',
     paddingLeft: 10,
     /* This fixes things like a "g" being cut-off vertically */
-    paddingTop: -5,
-    marginTop: 5,
+    paddingTop: smaller ? -10 : -5,
+    marginTop: smaller ? 2 : 5,
   },
   count: {
     flex: 1,
     fontFamily: 'HelveticaNeue',
     fontWeight: '300',
-    fontSize: 12,
+    fontSize: smaller ? 10 : 12,
     color: 'white',
     textAlign: 'left',
     paddingLeft: 10,
-    marginBottom: -5,
+    marginBottom: smaller ? -8 : -5,
   },
   cost: {
     flex: 0.5,
     fontFamily: 'HelveticaNeue',
-    lineHeight: 65,
+    lineHeight: smaller ? 50 : 65,
     fontWeight: '300',
-    fontSize: 26,
+    fontSize: smaller ? 22 : 26,
     color: 'white',
     textAlign: 'right',
     paddingRight: 10,

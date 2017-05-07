@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.5)',
     textAlign: 'left',
     paddingLeft: 5,
+    paddingTop: smaller ? 2 : 0
   },
   date: {
     fontFamily: 'HelveticaNeue',
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'left',
     marginLeft: 10,
-    marginTop: 28
+    marginTop: smaller ? 0 : 28
   },
   totalGroup: {
     flex: 0.4,
