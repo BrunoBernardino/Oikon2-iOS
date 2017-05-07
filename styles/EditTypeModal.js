@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const window = Dimensions.get('window');
+const smaller = (window.width <= 320);
 
 const styles = StyleSheet.create({
   container: {
@@ -12,10 +15,10 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   emptySpace: {
-    flex: 0.75,
+    flex: smaller ? 0.5 : 0.75,
   },
   emptyShortSpace: {
-    flex: 0.15,
+    flex: smaller ? 0.1 : 0.15,
   },
   headerGroup: {
     justifyContent: 'flex-start',
