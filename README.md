@@ -18,13 +18,7 @@ In simulator, press `Cmd+R` to reload, `Cmd+D` or shake for dev menu.
 
 ## Current State
 
-Check [TODO.md](TODO.md) for a list of specific tasks.
-
-Most of this is working and looking fine, it's missing mostly copy+pasting, adapting, and refactoring the components, but I got blocked on the implementation of some UX.
-
-Most specifically, the thing that blocked me was not being able to easily add the `CommonTopKeyboardView` when there was a `Modal` already visible.
-
-In the end, I loved learning about React Native and the different paradigms. I'll probably come back to this later, but right now I'm focusing on other things in my life.
+[This is available in the app store](https://itunes.apple.com/us/app/oikon-2-manage-your-expenses/id1234105377?ls=1&mt=8)!
 
 ## Screenshots
 
