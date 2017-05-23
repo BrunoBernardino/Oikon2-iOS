@@ -32,7 +32,8 @@ class Oikon2 extends Component {
 
     this.state = {
       // State
-      loadedData: false,
+      loadedExpenses: false,
+      loadedTypes: false,
       loadedSettings: false,
       selectedTab: 'addTab',
 
@@ -44,7 +45,6 @@ class Oikon2 extends Component {
         search: ''
       },
       remoteURL: '',
-      lastStatsSync: '',
 
       // Data
       expenses: [],
@@ -70,7 +70,6 @@ class Oikon2 extends Component {
         const visibleTypesFilter = SettingsDB.get('filters-visibleTypes', '', true);
         const searchFilter = SettingsDB.get('filters-search', '');
         const remoteURL = SettingsDB.get('remoteURL', '');
-        const lastStatsSync = SettingsDB.get('last-stats-sync', '');
 
         this.setState({
           loadedSettings: true,
@@ -81,7 +80,6 @@ class Oikon2 extends Component {
             search: searchFilter,
           },
           remoteURL,
-          lastStatsSync,
         });
       });
 
@@ -95,8 +93,8 @@ class Oikon2 extends Component {
     DataDB.get('expenses', (expenses) => {
       // Update state with fetched data
       this.setState({
-        loadedData: true,
-        expenses: expenses,
+        loadedExpenses: true,
+        expenses,
       });
     });
 
@@ -104,18 +102,14 @@ class Oikon2 extends Component {
     DataDB.get('types', (types) => {
       // Update state with fetched data
       this.setState({
-        loadedData: true,
-        types: types,
+        loadedTypes: true,
+        types,
       });
     });
   }
 
   onExpensesLoad() {
     this.loadData();
-  }
-
-  onTypesLoad() {
-    this.onStatsSync();
   }
 
   renderTabContent(tab) {
@@ -145,16 +139,33 @@ class Oikon2 extends Component {
     }
 
     if (tab === 'typesTab') {
-      // Uncategorized stats
-      let uncategorizedCount = 0;
-      let uncategorizedCost = 0;
+      // Based on date filters, calculate count and cost for each type
+      const typeTotals = {};
 
-      this.state.expenses.forEach((expense) => {
-        if (expense.type === '') {
-          uncategorizedCount += 1;
-          uncategorizedCost += expense.cost;
-        }
+      // Filter expenses by dates
+      const filteredExpenses = this.state.expenses.filter((expense) => {
+        return (expense.date >= this.state.filters.startDate && expense.date <= this.state.filters.endDate);
       });
+
+      filteredExpenses.forEach((expense) => {
+        if (!typeTotals[expense.type]) {
+          typeTotals[expense.type] = {
+            count: 0,
+            cost: 0,
+          };
+        }
+
+        typeTotals[expense.type].count += 1;
+        typeTotals[expense.type].cost += expense.cost;
+      });
+
+      this.state.types.forEach((type) => {
+        type.count = (typeTotals[type.name] && typeTotals[type.name].count) || 0;
+        type.cost = (typeTotals[type.name] && typeTotals[type.name].cost) || 0;
+      });
+
+      const uncategorizedCount = (typeTotals[''] && typeTotals[''].count) || 0;
+      const uncategorizedCost = (typeTotals[''] && typeTotals[''].cost) || 0;
 
       return (
         <TypesTab
@@ -164,7 +175,6 @@ class Oikon2 extends Component {
           onAddType={this.onAddType.bind(this)}
           onEditType={this.onEditType.bind(this)}
           onDeleteType={this.onDeleteType.bind(this)}
-          onLoad={this.onTypesLoad.bind(this)}
         />
       );
     }
@@ -173,10 +183,8 @@ class Oikon2 extends Component {
       return (
         <SettingsTab
           remoteURL={this.state.remoteURL}
-          lastStatsSync={this.state.lastStatsSync}
           onRemoteURLChange={this.onRemoteURLChange.bind(this)}
           onRemoteURLFinishEditing={this.onRemoteURLFinishEditing.bind(this)}
-          onStatsSync={this.onStatsSync.bind(this)}
           onExportPress={this.onExportPress.bind(this)}
           onImportPress={this.onImportPress.bind(this)}
           onDeleteAllPress={this.onDeleteAllPress.bind(this)}
@@ -409,36 +417,6 @@ class Oikon2 extends Component {
     this.loadData();
   }
 
-  async onStatsSync() {
-    const now = moment().format('YYYY-MM-DD');
-    SettingsDB.set('last-stats-sync', now);
-
-    this.setState({
-      lastStatsSync: now
-    });
-
-    // It's cool this is non-blocking, it's not critical
-    try {
-      const types = JSON.parse(JSON.stringify(this.state.types));
-
-      let type = types.shift();
-      while (type) {
-        const stats = await DataDB.getStatsForType(type.name);
-
-        type.count = stats.count;
-        type.cost = stats.cost;
-
-        await DataDB.update('type', type);
-
-        type = types.shift();
-      }
-
-      this.loadData();
-    } catch (e) {
-      // Ignore
-    }
-  }
-
   prepareValueForCSV(value) {
     return value.replace(',', ';')
       .replace('\n', ' ')
@@ -541,7 +519,7 @@ class Oikon2 extends Component {
       if (!error) {
         FileSystem.readFile(file.uri, 'utf8')
           .then((contents) => this.parseDataFromCSV(contents))
-          .then(() => this.onStatsSync())// This will trigger a reload of data as well
+          .then(() => this.loadData())
           .then(() => this.showSuccessMessage('Expenses and expense types imported successfully!'))
           .catch(() => this.showErrorMessage('Could not parse the file. Please make sure it\'s an Oikon-compatible CSV file.'));
       } else {

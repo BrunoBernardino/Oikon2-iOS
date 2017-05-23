@@ -77,8 +77,6 @@ class AddTypeModal extends Component {
   onSavePress() {
     const type = {
       name: this.state.name,
-      count: 0,
-      cost: 0,
     };
 
     const success = this.props.onSave(type);

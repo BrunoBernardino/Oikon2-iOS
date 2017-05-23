@@ -5,7 +5,6 @@ import {
   StatusBar,
   TouchableHighlight,
   Text,
-  RefreshControl,
 } from 'react-native';
 
 import TypeRow from './TypeRow';
@@ -19,7 +18,6 @@ class TypesTab extends Component {
     super(props);
 
     this.state = {
-      refreshingData: false,
       showingAddModal: false,
       showingEditModal: false,
       typeBeingEdited: {
@@ -75,20 +73,6 @@ class TypesTab extends Component {
     });
   }
 
-  onRefresh() {
-    this.setState({
-      refreshingData: true,
-    });
-
-    this.props.onLoad();// TODO: This isn't async, so this is a "fake" load time
-
-    setTimeout(() => {
-      this.setState({
-        refreshingData: false,
-      });
-    }, 1000);
-  }
-
   render() {
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => JSON.stringify(r1) !== JSON.stringify(r2)});
 
@@ -124,13 +108,6 @@ class TypesTab extends Component {
           style={styles.listContainer}
           automaticallyAdjustContentInsets={false}
           enableEmptySections={true}
-          refreshControl={
-            <RefreshControl
-              tintColor="#FFFFFF"
-              refreshing={this.state.refreshingData}
-              onRefresh={this.onRefresh.bind(this)}
-            />
-          }
         />
         <EditTypeModal
           visible={this.state.showingEditModal}
@@ -160,7 +137,6 @@ TypesTab.propTypes = {
   onAddType: React.PropTypes.func.isRequired,
   onEditType: React.PropTypes.func.isRequired,
   onDeleteType: React.PropTypes.func.isRequired,
-  onLoad: React.PropTypes.func.isRequired,
 };
 
 export default TypesTab;
