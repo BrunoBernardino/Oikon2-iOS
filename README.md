@@ -1,10 +1,10 @@
 # Oikon 2
 
+https://oikon.net
+
 ## Requirements
 
-`nvm`, `npm`, `rnpm`, and `react-native`.
-
-`$ nvm install 6 && nvm alias default 6 && nvm use default`
+`nvm` (or `node` 6), `npm`, `rnpm`, and `react-native`.
 
 ## Dependencies
 
@@ -12,7 +12,7 @@
 
 ## Development
 
-`$ react-native run-ios`
+`$ react-native run-ios --simulator "iPhone 6s"`
 
 In simulator, press `Cmd+R` to reload, `Cmd+D` or shake for dev menu.
 
