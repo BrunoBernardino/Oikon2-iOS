@@ -108,11 +108,6 @@ const DataDB = {
   async add(type, data) {
     await this.validate(type, data);
 
-    // If adding an expense, update the expense type cost + count
-    if (type === 'expense' || type === 'expenses' || data.type !== '') {
-      await this.incrementStatsForType(data.type, data.cost);
-    }
-
     // If adding a type, confirm the name is unique
     if (type === 'type' || type === 'types') {
       const exists = await this.typeExists(data.name);
@@ -137,11 +132,6 @@ const DataDB = {
 
   // Delete a row
   async delete(type, data) {
-    // If deleting an expense, update the expense type cost + count
-    if ((type === 'expense' || type === 'expenses') && data.type !== '') {
-      await this.incrementStatsForType(data.type, data.cost, -1);
-    }
-
     // If deleting an expense type, update the expenses
     if (type === 'type' || type === 'types') {
       await this.removeTypeFromExpenses(data.name);
@@ -222,16 +212,6 @@ const DataDB = {
     if (type === 'type' || type === 'types') {
       // Trim name
       data.name = data.name.trim();
-
-      // Convert cost to number
-      if (typeof data.cost !== 'number') {
-        data.cost = parseFloat(data.cost);
-      }
-
-      // Convert count to number
-      if (typeof data.count !== 'number') {
-        data.count = parseInt(data.count, 10);
-      }
     }
 
     return Promise.resolve();
@@ -276,77 +256,6 @@ const DataDB = {
       if (data.name === 'uncategorized' || data.name === '(auto)') {
         throw Error('Expense Types cannot be named "uncategorized" nor "(auto)".');
       }
-
-      // We need a count
-      if (!_.isNumber(data.count) || isNaN(data.count)) {
-        throw Error('Expense Types need a count, even if 0.');
-      }
-
-      // We need a cost
-      if (!_.isNumber(data.cost) || isNaN(data.cost)) {
-        throw Error('Expense Types need a cost, even if 0.');
-      }
-    }
-  },
-
-  // Get expense counts and costs for a given expense type
-  async getStatsForType(typeName) {
-    const stats = {
-      cost: 0,
-      count: 0,
-    };
-
-    try {
-      const result = await this.expensesDB.find({
-        selector: {
-          type: typeName,
-        },
-        fields: ['cost'],
-        limit: null,
-      });
-
-      const rows = result.docs;
-
-      if (rows.length === 0) {
-        return stats;
-      }
-
-      rows.forEach((row) => {
-        stats.count += 1;
-        stats.cost += row.cost;
-      });
-
-      return stats;
-    } catch (e) {
-      return stats;
-    }
-  },
-
-  // Increment count and cost for a given expense type
-  async incrementStatsForType(typeName, expenseCost, expenseCount = 1) {
-    try {
-      const result = await this.typesDB.find({
-        selector: {
-          name: typeName,
-        },
-        limit: 1,
-      });
-
-      const rows = result.docs;
-
-      if (rows.length !== 1) {
-        return false;
-      }
-
-      const row = rows[0];
-      row.count += expenseCount;
-      row.cost += expenseCost * expenseCount;
-
-      await this.update('type', row);
-
-      return true;
-    } catch (e) {
-      return false;
     }
   },
 

@@ -23,8 +23,6 @@ class EditTypeModal extends Component {
       _id: '',
       _rev: '',
       name: '',
-      count: '',
-      cost: '',
       focusedInput: '',
       showingKeyboard: false,
       keyboardY: 0,
@@ -43,8 +41,6 @@ class EditTypeModal extends Component {
       _id: nextProps.type._id,
       _rev: nextProps.type._rev,
       name: nextProps.type.name,
-      count: nextProps.type.count,
-      cost: nextProps.type.cost,
     });
   }
 
@@ -94,8 +90,6 @@ class EditTypeModal extends Component {
       _id: this.state._id,
       _rev: this.state._rev,
       name: this.state.name,
-      count: this.state.count,
-      cost: this.state.cost,
     };
 
     this.props.onSave(type);
@@ -128,8 +122,6 @@ class EditTypeModal extends Component {
       _id: this.state._id,
       _rev: this.state._rev,
       name: this.state.name,
-      count: this.state.count,
-      cost: this.state.cost,
     };
 
     this.props.onDelete(expense);

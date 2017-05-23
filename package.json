@@ -1,6 +1,6 @@
 {
-  "name": "Oikon2",
-  "version": "0.0.1",
+  "name": "Oikon2-iOS",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
