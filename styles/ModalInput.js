@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   label: {
     flex: 0.3,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '500',
     fontSize: smaller ? 13 : 16,
     color: 'black',
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 0.7,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: smaller ? 16 : 20,
     color: 'black',

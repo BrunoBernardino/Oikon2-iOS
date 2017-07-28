@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   },
   nextText: {
     flex: 0.3,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 16,
     color: '#1F86FF',
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   saveText: {
     flex: 0.4,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '400',
     fontSize: 16,
     color: '#1F86FF',
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     flex: 0.3,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 16,
     color: '#1F86FF',

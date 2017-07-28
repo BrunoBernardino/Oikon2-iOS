@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   name: {
     flex: 1,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     lineHeight: smaller ? 26 : 30,
     fontSize: smaller ? 26 : 30,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   count: {
     flex: 1,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: smaller ? 10 : 12,
     color: 'white',
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   cost: {
     flex: 0.5,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     lineHeight: smaller ? 50 : 65,
     fontWeight: '300',
     fontSize: smaller ? 22 : 26,

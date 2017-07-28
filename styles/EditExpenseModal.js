@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   closeText: {
     flex: 0.3,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 16,
     color: '#1F86FF',
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     flex: 0.4,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '400',
     fontSize: 16,
     color: 'black',
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     flex: 0.3,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 16,
     color: '#CC0000',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     paddingRight: 60,
   },
   saveButtonText: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 18,
     color: '#FFFFFF',

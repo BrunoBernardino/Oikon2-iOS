@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.01)'
   },
   label: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     lineHeight: height,
     fontWeight: '300',
     fontSize: smaller ? 16 : 20,
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   input: {
     height: height,
     flex: 0.8,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '100',
     fontSize: smaller ? 42 : 50,
     color: 'white',
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   smallInput: {
     height: height,
     flex: 0.8,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '100',
     fontSize: smaller ? 26 : 30,
     color: 'white',

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 20,
     color: 'white',

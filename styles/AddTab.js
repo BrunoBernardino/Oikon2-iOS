@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addExpenseText: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 16,
     color: 'white',

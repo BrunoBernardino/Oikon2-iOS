@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   dateLabel: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '200',
     fontSize: smaller ? 14 : 18,
     color: 'rgba(255, 255, 255, 0.5)',
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     paddingTop: smaller ? 2 : 0
   },
   date: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: smaller ? 16 : 20,
     color: 'white',
@@ -53,14 +53,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   totalLabel: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '200',
     fontSize: smaller ? 14 : 18,
     color: 'rgba(255, 255, 255, 0.5)',
     textAlign: 'center'
   },
   total: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: smaller ? 20 : 22,
     color: 'white',
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '200',
     fontSize: smaller ? 13 : 16,
     color: 'white',
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   filtersText: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '200',
     fontSize: smaller ? 13 : 16,
     color: 'rgba(255, 255, 255, 0.5)',
