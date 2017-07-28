@@ -83,12 +83,16 @@ class Oikon2 extends Component {
         });
       });
 
-    this.loadData();
+    this.loadData(true);
   }
 
-  loadData() {
+  loadData(showNotification = false) {
     // Initialize data
     DataDB.init(this.state.remoteURL);
+
+    if (this.state.remoteURL && showNotification) {
+      this.showInfoMessage('Synchronizing...');
+    }
 
     DataDB.get('expenses', (expenses) => {
       // Update state with fetched data
@@ -109,7 +113,7 @@ class Oikon2 extends Component {
   }
 
   onExpensesLoad() {
-    this.loadData();
+    this.loadData(true);
   }
 
   renderTabContent(tab) {
@@ -292,6 +296,19 @@ class Oikon2 extends Component {
     });
   }
 
+  showInfoMessage(message) {
+    MessageBarManager.showAlert({
+      title: null,
+      message: message,
+      alertType: 'info',
+      stylesheetInfo: {
+        backgroundColor: '#222222',
+        strokeColor: '#222222'
+      },
+      viewTopInset: 12
+    });
+  }
+
   //
   // Add Actions
   //
@@ -414,7 +431,7 @@ class Oikon2 extends Component {
 
   onRemoteURLFinishEditing() {
     // Re-initialize/sync data
-    this.loadData();
+    this.loadData(true);
   }
 
   prepareValueForCSV(value) {
