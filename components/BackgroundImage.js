@@ -6,9 +6,10 @@ class BackgroundImage extends Component {
     const {source, children, style, ...props} = this.props;
     return (
       <Image source={ source }
-             style={ { flex: 1, width: null, height: null, ...style } }
-             resizeMode={Image.resizeMode.cover}
-             {...props}>
+        style={ { flex: 1, width: null, height: null, ...style } }
+        resizeMode={Image.resizeMode.cover}
+        {...props}
+      >
         { children }
       </Image>
     );

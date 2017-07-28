@@ -8,7 +8,6 @@ import {
   TouchableHighlight,
   Linking,
 } from 'react-native';
-import moment from 'moment';
 
 import BigInput from './BigInput';
 

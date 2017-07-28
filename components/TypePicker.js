@@ -28,7 +28,7 @@ class TypePicker extends Component {
         transparent={true}
         visible={visible}
         onRequestClose={onRequestClose}
-        >
+      >
         <BlurView blurType="light" style={styles.container}>
           <View style={styles.emptySpace}></View>
           <View style={styles.pane}>

@@ -108,7 +108,7 @@ class AddTypeModal extends Component {
         visible={visible}
         onRequestClose={onClose}
         onShow={this.onShow.bind(this)}
-        >
+      >
         <BlurView blurType="light" style={styles.container}>
           <View style={this.state.showingKeyboard ? styles.emptyShortSpace : styles.emptySpace}></View>
           <View style={styles.pane}>
