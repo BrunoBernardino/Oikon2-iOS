@@ -81,9 +81,9 @@ class Oikon2 extends Component {
           },
           remoteURL,
         });
-      });
 
-    this.loadData(true);
+        this.loadData(true);
+      });
   }
 
   loadData(showNotification = false) {

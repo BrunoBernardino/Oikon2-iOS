@@ -16,8 +16,14 @@ PouchDB.plugin(PouchDBFind);
 const DataDB = {
   init(remoteHost) {
 
-    this.expensesDB = new PouchDB(EXPENSES_URI);
-    this.typesDB = new PouchDB(TYPES_URI);
+    const dbOptions = {
+      ajax: {
+        timeout: 30000,
+      },
+    };
+
+    this.expensesDB = new PouchDB(EXPENSES_URI, dbOptions);
+    this.typesDB = new PouchDB(TYPES_URI, dbOptions);
 
     // Add indexes
     this.expensesDB.createIndex({
@@ -41,6 +47,8 @@ const DataDB = {
       const syncOptions = {
         live: true,
         retry: true,
+        timeout: 30000,
+        heartbeat: 30000,
       };
 
       PouchDB.sync(EXPENSES_URI, `${remoteHost}/${EXPENSES_URI}`, syncOptions);

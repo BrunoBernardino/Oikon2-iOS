@@ -47,6 +47,7 @@ class SettingsTab extends Component {
             autoCapitalize="none"
             autoCorrect={false}
             secureTextEntry={true}
+            blurOnSubmit={true}
           />
           <Text style={styles.instructions}>
             URL for a Remote CouchDB server.{'\n'}No trailing slash.
