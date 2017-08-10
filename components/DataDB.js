@@ -45,8 +45,8 @@ const DataDB = {
     // Sync w/ Remote if any
     if (remoteHost) {
       const syncOptions = {
-        live: true,
-        retry: true,
+        // live: true,
+        // retry: true,
         timeout: 30000,
         heartbeat: 30000,
       };
