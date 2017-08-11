@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 10,
     marginRight: 10,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    height: 28,
   },
   filtersButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.01)',

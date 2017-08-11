@@ -14,7 +14,7 @@ const genericErrorHandler = (error) => {
 PouchDB.plugin(PouchDBFind);
 
 const DataDB = {
-  init(remoteHost) {
+  init(remoteHost, completeCallback) {
 
     const dbOptions = {
       ajax: {
@@ -51,8 +51,32 @@ const DataDB = {
         heartbeat: 30000,
       };
 
-      PouchDB.sync(EXPENSES_URI, `${remoteHost}/${EXPENSES_URI}`, syncOptions);
-      PouchDB.sync(TYPES_URI, `${remoteHost}/${TYPES_URI}`, syncOptions);
+      const completed = {
+        expenses: false,
+        types: false,
+      };
+
+      const notifyCompleted = (type) => {
+        completed[type] = true;
+
+        if (completed.expenses && completed.types) {
+          completeCallback();
+        }
+      };
+
+      const notifyExpensesCompleted = _.partial(notifyCompleted, 'expenses');
+      const notifyTypesCompleted = _.partial(notifyCompleted, 'types');
+
+      PouchDB.sync(EXPENSES_URI, `${remoteHost}/${EXPENSES_URI}`, syncOptions)
+        .on('denied', notifyExpensesCompleted)
+        .on('error', notifyExpensesCompleted)
+        .on('complete', notifyExpensesCompleted);
+      PouchDB.sync(TYPES_URI, `${remoteHost}/${TYPES_URI}`, syncOptions)
+        .on('denied', notifyTypesCompleted)
+        .on('error', notifyTypesCompleted)
+        .on('complete', notifyTypesCompleted);
+    } else {
+      completeCallback();
     }
   },
 
@@ -139,7 +163,7 @@ const DataDB = {
   },
 
   // Delete a row
-  async delete(type, data) {
+  async 'delete'(type, data) {
     // If deleting an expense type, update the expenses
     if (type === 'type' || type === 'types') {
       await this.removeTypeFromExpenses(data.name);

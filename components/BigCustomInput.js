@@ -29,6 +29,7 @@ class BigCustomInput extends Component {
         <TouchableHighlight
           onPress={onShowInput}
           underlayColor="rgba(255, 255, 255, 0.5)"
+          style={{flex: 1}}
         >
           <Text
             style={inputStyle}

@@ -87,27 +87,31 @@ class Oikon2 extends Component {
   }
 
   loadData(showNotification = false) {
-    // Initialize data
-    DataDB.init(this.state.remoteURL);
-
     if (this.state.remoteURL && showNotification) {
       this.showInfoMessage('Synchronizing...');
     }
 
-    DataDB.get('expenses', (expenses) => {
-      // Update state with fetched data
-      this.setState({
-        loadedExpenses: true,
-        expenses,
-      });
-    });
+    // Initialize data
+    DataDB.init(this.state.remoteURL, () => {
+      if (this.state.remoteURL && showNotification) {
+        this.showInfoMessage('Sync Complete.');
+      }
 
-    // Get Expense Types
-    DataDB.get('types', (types) => {
-      // Update state with fetched data
-      this.setState({
-        loadedTypes: true,
-        types,
+      DataDB.get('expenses', (expenses) => {
+        // Update state with fetched data
+        this.setState({
+          loadedExpenses: true,
+          expenses,
+        });
+      });
+
+      // Get Expense Types
+      DataDB.get('types', (types) => {
+        // Update state with fetched data
+        this.setState({
+          loadedTypes: true,
+          types,
+        });
       });
     });
   }
@@ -317,7 +321,7 @@ class Oikon2 extends Component {
       .then(() => {
         this.showSuccessMessage('Expense added successfully.');
 
-        this.loadData();
+        setTimeout(() => this.loadData(), 3000);
       })
       .catch((error) => {
         this.showErrorMessage(`${error}`);

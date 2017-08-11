@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderTopColor: 'rgba(255, 255, 255, 0.8)',
     borderTopWidth: 1,
-    marginTop: 20
+    marginTop: 20,
+    maxHeight: 330,
   },
   headerGroup: {
     justifyContent: 'flex-start',
