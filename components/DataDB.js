@@ -14,10 +14,16 @@ const genericErrorHandler = (error) => {
 PouchDB.plugin(PouchDBFind);
 
 const DataDB = {
-  init(remoteHost) {
+  init(remoteHost, completeCallback) {
 
-    this.expensesDB = new PouchDB(EXPENSES_URI);
-    this.typesDB = new PouchDB(TYPES_URI);
+    const dbOptions = {
+      ajax: {
+        timeout: 30000,
+      },
+    };
+
+    this.expensesDB = new PouchDB(EXPENSES_URI, dbOptions);
+    this.typesDB = new PouchDB(TYPES_URI, dbOptions);
 
     // Add indexes
     this.expensesDB.createIndex({
@@ -39,12 +45,38 @@ const DataDB = {
     // Sync w/ Remote if any
     if (remoteHost) {
       const syncOptions = {
-        live: true,
-        retry: true,
+        // live: true,
+        // retry: true,
+        timeout: 30000,
+        heartbeat: 30000,
       };
 
-      PouchDB.sync(EXPENSES_URI, `${remoteHost}/${EXPENSES_URI}`, syncOptions);
-      PouchDB.sync(TYPES_URI, `${remoteHost}/${TYPES_URI}`, syncOptions);
+      const completed = {
+        expenses: false,
+        types: false,
+      };
+
+      const notifyCompleted = (type) => {
+        completed[type] = true;
+
+        if (completed.expenses && completed.types) {
+          completeCallback();
+        }
+      };
+
+      const notifyExpensesCompleted = _.partial(notifyCompleted, 'expenses');
+      const notifyTypesCompleted = _.partial(notifyCompleted, 'types');
+
+      PouchDB.sync(EXPENSES_URI, `${remoteHost}/${EXPENSES_URI}`, syncOptions)
+        .on('denied', notifyExpensesCompleted)
+        .on('error', notifyExpensesCompleted)
+        .on('complete', notifyExpensesCompleted);
+      PouchDB.sync(TYPES_URI, `${remoteHost}/${TYPES_URI}`, syncOptions)
+        .on('denied', notifyTypesCompleted)
+        .on('error', notifyTypesCompleted)
+        .on('complete', notifyTypesCompleted);
+    } else {
+      completeCallback();
     }
   },
 
@@ -131,7 +163,7 @@ const DataDB = {
   },
 
   // Delete a row
-  async delete(type, data) {
+  async 'delete'(type, data) {
     // If deleting an expense type, update the expenses
     if (type === 'type' || type === 'types') {
       await this.removeTypeFromExpenses(data.name);

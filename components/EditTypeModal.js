@@ -139,7 +139,7 @@ class EditTypeModal extends Component {
         transparent={true}
         visible={visible}
         onRequestClose={onClose}
-        >
+      >
         <BlurView blurType="light" style={styles.container}>
           <View style={this.state.showingKeyboard ? styles.emptyShortSpace : styles.emptySpace}></View>
           <View style={styles.pane}>

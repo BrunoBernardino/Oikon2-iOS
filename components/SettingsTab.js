@@ -8,7 +8,6 @@ import {
   TouchableHighlight,
   Linking,
 } from 'react-native';
-import moment from 'moment';
 
 import BigInput from './BigInput';
 
@@ -48,6 +47,7 @@ class SettingsTab extends Component {
             autoCapitalize="none"
             autoCorrect={false}
             secureTextEntry={true}
+            blurOnSubmit={true}
           />
           <Text style={styles.instructions}>
             URL for a Remote CouchDB server.{'\n'}No trailing slash.

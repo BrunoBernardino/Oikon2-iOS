@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   buttonText: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: smaller ? 16 : 20,
     color: 'white',
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   deleteButtonText: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: smaller ? 16 : 20,
     color: '#CC0000',

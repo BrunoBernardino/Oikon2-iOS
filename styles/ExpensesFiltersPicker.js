@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderTopColor: 'rgba(255, 255, 255, 0.8)',
     borderTopWidth: 1,
-    marginTop: 20
+    marginTop: 20,
+    maxHeight: 330,
   },
   headerGroup: {
     justifyContent: 'flex-start',
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
   },
   closeText: {
     flex: 0.3,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 16,
     color: '#1F86FF',
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     flex: 0.4,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '400',
     fontSize: 16,
     color: 'black',
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
   },
   clearText: {
     flex: 0.3,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 16,
     color: '#1F86FF',
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   filtersGroupTitle: {
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 12,
     color: 'black',
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
   },
   type: {
     flex: 0.9,
-    fontFamily: 'HelveticaNeue',
+    fontFamily: 'Helvetica Neue',
     fontWeight: '300',
     fontSize: 20,
     color: 'black',

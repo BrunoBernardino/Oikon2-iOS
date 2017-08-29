@@ -81,35 +81,43 @@ class Oikon2 extends Component {
           },
           remoteURL,
         });
-      });
 
-    this.loadData();
+        this.loadData(true);
+      });
   }
 
-  loadData() {
+  loadData(showNotification = false) {
+    if (this.state.remoteURL && showNotification) {
+      this.showInfoMessage('Synchronizing...');
+    }
+
     // Initialize data
-    DataDB.init(this.state.remoteURL);
+    DataDB.init(this.state.remoteURL, () => {
+      if (this.state.remoteURL && showNotification) {
+        this.showInfoMessage('Sync Complete.');
+      }
 
-    DataDB.get('expenses', (expenses) => {
-      // Update state with fetched data
-      this.setState({
-        loadedExpenses: true,
-        expenses,
+      DataDB.get('expenses', (expenses) => {
+        // Update state with fetched data
+        this.setState({
+          loadedExpenses: true,
+          expenses,
+        });
       });
-    });
 
-    // Get Expense Types
-    DataDB.get('types', (types) => {
-      // Update state with fetched data
-      this.setState({
-        loadedTypes: true,
-        types,
+      // Get Expense Types
+      DataDB.get('types', (types) => {
+        // Update state with fetched data
+        this.setState({
+          loadedTypes: true,
+          types,
+        });
       });
     });
   }
 
   onExpensesLoad() {
-    this.loadData();
+    this.loadData(true);
   }
 
   renderTabContent(tab) {
@@ -292,6 +300,19 @@ class Oikon2 extends Component {
     });
   }
 
+  showInfoMessage(message) {
+    MessageBarManager.showAlert({
+      title: null,
+      message: message,
+      alertType: 'info',
+      stylesheetInfo: {
+        backgroundColor: '#222222',
+        strokeColor: '#222222'
+      },
+      viewTopInset: 12
+    });
+  }
+
   //
   // Add Actions
   //
@@ -300,7 +321,7 @@ class Oikon2 extends Component {
       .then(() => {
         this.showSuccessMessage('Expense added successfully.');
 
-        this.loadData();
+        setTimeout(() => this.loadData(), 3000);
       })
       .catch((error) => {
         this.showErrorMessage(`${error}`);
@@ -414,7 +435,7 @@ class Oikon2 extends Component {
 
   onRemoteURLFinishEditing() {
     // Re-initialize/sync data
-    this.loadData();
+    this.loadData(true);
   }
 
   prepareValueForCSV(value) {

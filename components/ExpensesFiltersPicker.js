@@ -44,55 +44,55 @@ class ExpensesFiltersPicker extends Component {
         transparent={true}
         visible={visible}
         onRequestClose={onRequestClose}
-        >
-       <BlurView blurType="light" style={styles.container}>
-        <View style={styles.pane}>
-          <View style={styles.headerGroup}>
-            <TouchableHighlight
-              onPress={this.clearFilters.bind(this)}
-              underlayColor="rgba(255, 255, 255, 0.5)"
-            >
-              <Text style={styles.clearText}>Clear</Text>
-            </TouchableHighlight>
-            <Text style={styles.titleText}>Filters</Text>
-            <TouchableHighlight
-              onPress={onRequestClose}
-              underlayColor="rgba(255, 255, 255, 0.5)"
-            >
-              <Text style={styles.closeText}>Close</Text>
-            </TouchableHighlight>
-          </View>
+      >
+        <BlurView blurType="light" style={styles.container}>
+          <View style={styles.pane}>
+            <View style={styles.headerGroup}>
+              <TouchableHighlight
+                onPress={this.clearFilters.bind(this)}
+                underlayColor="rgba(255, 255, 255, 0.5)"
+              >
+                <Text style={styles.clearText}>Clear</Text>
+              </TouchableHighlight>
+              <Text style={styles.titleText}>Filters</Text>
+              <TouchableHighlight
+                onPress={onRequestClose}
+                underlayColor="rgba(255, 255, 255, 0.5)"
+              >
+                <Text style={styles.closeText}>Close</Text>
+              </TouchableHighlight>
+            </View>
 
-          <View style={styles.filtersGroup}>
-            <Text style={styles.filtersGroupTitle}>Expense Types</Text>
-            <ScrollView>
-              <View style={styles.typeGroup}>
-                <Text style={styles.type}>uncategorized</Text>
-                <Switch
-                   style={styles.typeSwitch}
-                  onValueChange={this.toggleType.bind(this, '')}
-                  value={this.isVisible('')}
-                />
-              </View>
-              {types.map((type, index) => {
-                const rowStyle = (index % 2 === 1) ? styles.typeGroup : [styles.typeGroup, styles.oddTypeGroup];
-                const switchColor = (index % 2 === 1) ? undefined : '#FFFFFF';
-                return (
-                  <View key={index} style={rowStyle}>
-                    <Text style={styles.type}>{type}</Text>
-                    <Switch
-                      style={styles.typeSwitch}
-                      tintColor={switchColor}
-                      onValueChange={this.toggleType.bind(this, type)}
-                      value={this.isVisible(type)}
-                    />
-                  </View>
-                );
-              })}
-            </ScrollView>
+            <View style={styles.filtersGroup}>
+              <Text style={styles.filtersGroupTitle}>Expense Types</Text>
+              <ScrollView>
+                <View style={styles.typeGroup}>
+                  <Text style={styles.type}>uncategorized</Text>
+                  <Switch
+                    style={styles.typeSwitch}
+                    onValueChange={this.toggleType.bind(this, '')}
+                    value={this.isVisible('')}
+                  />
+                </View>
+                {types.map((type, index) => {
+                  const rowStyle = (index % 2 === 1) ? styles.typeGroup : [styles.typeGroup, styles.oddTypeGroup];
+                  const switchColor = (index % 2 === 1) ? undefined : '#FFFFFF';
+                  return (
+                    <View key={index} style={rowStyle}>
+                      <Text style={styles.type}>{type}</Text>
+                      <Switch
+                        style={styles.typeSwitch}
+                        tintColor={switchColor}
+                        onValueChange={this.toggleType.bind(this, type)}
+                        value={this.isVisible(type)}
+                      />
+                    </View>
+                  );
+                })}
+              </ScrollView>
+            </View>
           </View>
-        </View>
-       </BlurView>
+        </BlurView>
       </Modal>
     );
   }

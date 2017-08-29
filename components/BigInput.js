@@ -33,6 +33,7 @@ class BigInput extends Component {
       onSubmitEditing,
       onFocus,
       onEndEditing,
+      blurOnSubmit
     } = this.props;
 
     const inputStyle = smallerFont ? styles.smallInput : styles.input;
@@ -60,6 +61,7 @@ class BigInput extends Component {
           onSubmitEditing={onSubmitEditing}
           onFocus={onFocus}
           onEndEditing={onEndEditing}
+          blurOnSubmit={blurOnSubmit}
         />
       </View>
     );
@@ -80,6 +82,7 @@ BigInput.propTypes = {
   onSubmitEditing: React.PropTypes.func,
   onFocus: React.PropTypes.func,
   onEndEditing: React.PropTypes.func,
+  blurOnSubmit: React.PropTypes.bool,
 };
 
 BigInput.defaultProps = {
