@@ -4,7 +4,7 @@ https://oikon.net
 
 ## Requirements
 
-`nvm` (or `node` 6), `npm`, `rnpm`, and `react-native`.
+`nvm` (or `node` 6+), `npm`, `rnpm`, and `react-native`.
 
 ## Dependencies
 
@@ -12,7 +12,7 @@ https://oikon.net
 
 ## Development
 
-`$ react-native run-ios --simulator "iPhone 6s"`
+`$ react-native run-ios --simulator "iPhone X"`
 
 In simulator, press `Cmd+R` to reload, `Cmd+D` or shake for dev menu.
 

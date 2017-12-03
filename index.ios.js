@@ -11,6 +11,7 @@ import {
 import moment from 'moment';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import FileSystem from 'react-native-fs';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 import SettingsDB from './components/SettingsDB';
 import DataDB from './components/DataDB';
@@ -285,7 +286,7 @@ class Oikon2 extends Component {
       },
       position: 'bottom',
       animationType: 'SlideFromBottom',
-      viewBottomInset: 20,
+      viewBottomInset: isIphoneX() ? 20 : 0,
     });
   }
 
@@ -300,7 +301,7 @@ class Oikon2 extends Component {
       },
       position: 'bottom',
       animationType: 'SlideFromBottom',
-      viewBottomInset: 20,
+      viewBottomInset: isIphoneX() ? 20 : 0,
     });
   }
 
@@ -315,7 +316,7 @@ class Oikon2 extends Component {
       },
       position: 'bottom',
       animationType: 'SlideFromBottom',
-      viewBottomInset: 20,
+      viewBottomInset: isIphoneX() ? 20 : 0,
     });
   }
 
