@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 const window = Dimensions.get('window');
 const smaller = (window.width <= 320);
@@ -6,7 +7,8 @@ const smaller = (window.width <= 320);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    marginTop: isIphoneX() ? 60 : 0,
   },
   scrollView: {
     margin: 20,

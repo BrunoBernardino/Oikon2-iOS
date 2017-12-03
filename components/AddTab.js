@@ -11,6 +11,7 @@ import {
 import _ from 'lodash';
 import moment from 'moment';
 import dismissKeyboard from 'react-native-dismiss-keyboard';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 import BigInput from './BigInput';
 import BigCustomInput from './BigCustomInput';
@@ -49,7 +50,7 @@ class AddTab extends Component {
     // Show the common adjacent top view
     this.setState({
       showingKeyboard: true,
-      keyboardY: frame.endCoordinates.screenY,
+      keyboardY: frame.endCoordinates.screenY - (isIphoneX() ? 60 : 0),
       keyboardWidth: frame.endCoordinates.width,
     });
   }

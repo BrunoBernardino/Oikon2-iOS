@@ -283,7 +283,9 @@ class Oikon2 extends Component {
         backgroundColor: '#990000',
         strokeColor: '#990000'
       },
-      viewTopInset: 12
+      position: 'bottom',
+      animationType: 'SlideFromBottom',
+      viewBottomInset: 20,
     });
   }
 
@@ -296,7 +298,9 @@ class Oikon2 extends Component {
         backgroundColor: '#40A277',
         strokeColor: '#40A277'
       },
-      viewTopInset: 12
+      position: 'bottom',
+      animationType: 'SlideFromBottom',
+      viewBottomInset: 20,
     });
   }
 
@@ -309,7 +313,9 @@ class Oikon2 extends Component {
         backgroundColor: '#222222',
         strokeColor: '#222222'
       },
-      viewTopInset: 12
+      position: 'bottom',
+      animationType: 'SlideFromBottom',
+      viewBottomInset: 20,
     });
   }
 
