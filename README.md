@@ -1,6 +1,6 @@
 # Oikon 2
 
-https://oikon.net
+https://itunes.apple.com/pt/app/oikon-2-manage-your-expenses/id1234105377
 
 ## Requirements
 
