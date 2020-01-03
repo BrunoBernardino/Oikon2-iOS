@@ -15,7 +15,7 @@ import styles from '../styles/SettingsTab';
 
 class SettingsTab extends Component {
   openURL() {
-    Linking.openURL('https://oikon.net');
+    Linking.openURL('https://oikon.brn.sh');
   }
 
   render() {
