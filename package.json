@@ -8,7 +8,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "lodash": "4.17.4",
+    "lodash": "4.17.19",
     "moment": "2.18.1",
     "pouchdb-find": "6.3.4",
     "pouchdb-react-native": "6.2.6",
