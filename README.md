@@ -4,7 +4,7 @@ https://itunes.apple.com/pt/app/oikon-2-manage-your-expenses/id1234105377
 
 ## Requirements
 
-`nvm` (or `node` 6+), `npm`, `rnpm`, and `react-native`.
+`nvm` (or `node` 6+), `npm`, and `rnpm`.
 
 ## Dependencies
 
@@ -12,7 +12,7 @@ https://itunes.apple.com/pt/app/oikon-2-manage-your-expenses/id1234105377
 
 ## Development
 
-`$ react-native run-ios --simulator "iPhone X"`
+`$ npx react-native run-ios --simulator "iPhone 11 Pro Max"`
 
 In simulator, press `Cmd+R` to reload, `Cmd+D` or shake for dev menu.
 
